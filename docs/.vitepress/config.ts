@@ -2,8 +2,9 @@ import { defineConfig } from "vitepress";
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
-  base: "/your-repository-name/",
-  description: "A VitePress Site",
+  base: "/consoleUI/",
+  description:
+    "A lightweight, high-performance UI toolkit for terminal and browser consoles. Create beautiful styled outputs with zero performance impact. ConsoleUI provides styling, colors, boxes, tables, spinners, and trees in a single tree-shakable package with zero dependencies, ensuring consistent results across all environments.",
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
@@ -23,5 +24,5 @@ export default defineConfig({
 
     socialLinks: [{ icon: "github", link: "https://github.com/vuejs/vitepress" }],
   },
-  title: "My Awesome Project",
+  title: "consoleUI",
 });

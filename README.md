@@ -7,10 +7,10 @@
 </p>
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/fvena/typescript-library-template-pro/main/docs/public/logo.png" alt="TypeScript Library Template Pro Logo" width="180"/>
+  <img src="https://raw.githubusercontent.com/fvena/typescript-library-template-pro/main/docs/public/logo.png" alt="ConsoleUI" width="180"/>
 
-  <h1 align="center">TypeScript Library Template Pro</h1>
-  <div align="center">A modern, professional template for building robust TypeScript libraries with zero configuration.</div>
+  <h1 align="center">ConsoleUI</h1>
+  <div align="center">A lightweight, high-performance UI toolkit for terminal and browser consoles. Create beautiful styled outputs with zero performance impact. ConsoleUI provides styling, colors, boxes, tables, spinners, and trees in a single tree-shakable package with zero dependencies, ensuring consistent results across all environments.</div>
 </p>
 
 <br/>
@@ -19,9 +19,9 @@
 
 <!-- markdownlint-disable MD042 -->
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/fvena/typescript-library-template-pro)
+![GitHub package.json version](https://img.shields.io/github/package-json/v/fvena/consoleUI)
 [![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![Build Status](https://github.com/fvena/typescript-library-template-pro/workflows/CI%2FCD/badge.svg)]()
+[![Build Status](https://github.com/fvena/consoleUI/workflows/CI%2FCD/badge.svg)]()
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
 
@@ -29,99 +29,82 @@
 
 </div>
 
-## Why This Template?
+## Features
 
-Stop wasting days on boilerplate setup and **focus on what matters - your library code**:
+- ⚡️ **Blazing fast**: Engineered for zero-overhead performance
+- 🪶 **Ultralight**: Tree-shakable imports ensure minimal footprint
+- 🧩 **All-in-one**: Unified API for all your console styling needs
+- 🔄 **Cross-environment**: Works identically in Node.js and browsers
+- 🛠️ **Zero dependencies**: No bloat, just pure functionality
 
-- **Instant Setup**: Start coding your library in less than 5 minutes
-- **Developer Experience**: Hot reloading, type checking and fast testing
-- **Battle-tested Tools**: Pre-configured ESLint, Prettier, Vitest, Husky, and more
-- **Future-proof**: ESM & CommonJS support, full TypeScript strictness
-- **Automated Everything**: From linting to releases to documentation
-- **Playground**: A playground for testing your library
+## Overview
 
-<div align="center">
-  <img src="https://raw.githubusercontent.com/fvena/typescript-library-template-pro/main/docs/public/preview.png" alt="Workflow Visualization" width="700"/>
-</div>
+ConsoleUI solves the common problem of developers needing to juggle multiple libraries for console styling needs. Instead of importing separate packages for colors, spinners, boxes, and tables—each with their own dependencies, API patterns, and performance characteristics—ConsoleUI provides everything in one cohesive package.
 
-## Key Features
+### Why ConsoleUI?
 
-- **TypeScript First**: Full support for modern TypeScript with strict typing
-- **Dual Package**: Outputs both ESM and CommonJS formats
-- **Optimized Build**: Lightning-fast builds with [Tsup](https://tsup.egoist.dev)
-- **Code Quality**: Pre-configured [ESLint](https://eslint.org) and [Prettier](https://prettier.io)
-- **Testing Ready**: Unit testing with [Vitest](https://vitest.dev)
-- **Git Hooks**: Enforced commit standards with [Commitlint](https://commitlint.js.org) and [Husky](https://typicode.github.io/husky/)
-- **Documentation**: Beautiful docs with [Vitepress](https://vitepress.dev)
-- **CI/CD**: GitHub Actions for testing, publishing and deploying
-- **Semantic Release**: Automated versioning and changelog generation
+- **Consistent Experience**: The same API works seamlessly across terminal and browser consoles
+- **Modular Design**: Import only what you need with full tree-shaking support
+- **Performance First**: Built with performance as a priority, not an afterthought
+- **Developer Friendly**: Intuitive API with comprehensive TypeScript definitions
+- **Modern Architecture**: Built on modern JavaScript practices and patterns
 
-## Quick Start in 3 Steps
+### Visual Examples
 
-### 1. Create Your Project
+![Terminal Styling Example](https://via.placeholder.com/800x400?text=Terminal+Styling+Example)
+![Browser Console Example](https://via.placeholder.com/800x400?text=Browser+Console+Example)
 
-You can start using this template by clicking the green **"Use this template"** button on GitHub or by **cloning the repository**:
+## Quick Start
 
 ```bash
-# Clone the repository
-git clone https://github.com/fvena/typescript-library-template-pro.git your-library-name
-cd your-library-name
-
-# Install dependencies
-npm install
+npm install consoleui
 ```
 
-### 2. Configure Your Project
+```javascript
+// Terminal environment
+import { red, bold, box } from "consoleui/terminal";
 
-Customize your project details before development:
+console.log(red("Error message"));
+console.log(bold("Important notice"));
+console.log(box("Content in a box", { borderColor: "blue" }));
 
-- **Project Metadata**: Update `package.json` (name, version, author, etc.)
-- **License**: Edit `LICENSE` with your details
-- **Docs Configuration**: Update `docs/.vitepress/config.ts` (set `base` to repo name)
+// Browser environment
+import { red, bold, box } from "consoleui/browser";
 
-Optional (Recommended for Publishing):
-
-- **GitHub Secrets**: Add `GH_TOKEN` and `NPM_TOKEN` for releases
-- **Enable GitHub Pages**: Set GitHub Actions as the source for GitHub Pages
-
-### 3. Start Developing
-
-```bash
-npm run dev          # Development mode with auto-rebuild
-npm run playground   # Start the playground
-npm test             # Run tests
-npm run doc:dev      # Preview documentation
+console.log(red("Error message"));
+console.log(bold("Important notice"));
+console.log(box("Content in a box", { borderColor: "blue" }));
 ```
 
-## Deployment & Publishing
+## Why Choose ConsoleUI Over Alternatives?
 
-The deployment process is **fully automated** with GitHub Actions.
+| Feature               | ConsoleUI                              | Other Libraries                        |
+| --------------------- | -------------------------------------- | -------------------------------------- |
+| **Unified API**       | ✅ Same patterns across all components | ❌ Different APIs per library          |
+| **Cross-environment** | ✅ Works in both terminal and browser  | ❌ Often terminal-only or browser-only |
+| **Tree-shaking**      | ✅ Import only what you need           | ❌ Often all-or-nothing imports        |
+| **Performance**       | ✅ Optimized for minimal overhead      | ❌ Performance varies widely           |
+| **Dependencies**      | ✅ Zero external dependencies          | ❌ Often multiple nested dependencies  |
+| **Bundle size**       | ✅ Minimal footprint                   | ❌ Combines multiple libraries' weight |
+| **TypeScript**        | ✅ Comprehensive type definitions      | ❌ Inconsistent type support           |
 
-1. Use Conventional Commits (feat:, fix:, etc.)
-2. Push to `main`
-3. GitHub Actions will:
-   - Run tests & linting
-   - Update version & changelog
-   - Publish to NPM (if configured)
-   - Deploy docs (if enabled)
+## Who Uses ConsoleUI?
 
-## Complete Documentation
+ConsoleUI is perfect for:
 
-For detailed instructions on setup, customization, and advanced features, visit our <a href="https://fvena.github.io/typescript-library-template-pro/" target="_blank">📘 documentation site</a>.
+- **CLI Application Developers**: Create beautiful, information-rich terminal interfaces
+- **DevOps Teams**: Build readable diagnostic and monitoring tools
+- **Web Developers**: Debug with style in browser consoles
+- **Library Authors**: Enhance your library's console output
+- **Enterprise Applications**: Standardize console styling across your organization
 
-**Popular Sections**
+## Documentation
 
-- **[Getting Started Guide](https://fvena.github.io/typescript-library-template-pro/guide/getting-started.html)**: Step-by-step setup instructions
-- **[Development Workflow](https://fvena.github.io/typescript-library-template-pro/guide/development-workflow.html)**: Best practices for smooth coding
-- **[Testing Strategies](https://fvena.github.io/typescript-library-template-pro/guide/testing-strategies.html)**: Unit testing, debugging, and CI
-- **[Build & Configuration](https://fvena.github.io/typescript-library-template-pro/guide/build-configuration.html)**: Customizing the output format
-- **[Release Process](https://fvena.github.io/typescript-library-template-pro/guide/release-process.html)**: Learn how versioning and publishing work
+[Full documentation website →](https://consoleui.dev)
 
-## Need Help?
+## Contributing
 
-- **Check the FAQs**: Common questions are answered in the [documentation](https://fvena.github.io/typescript-library-template-pro/)
-- **Open an Issue**: For bugs or feature requests
-- **Contribute**: PRs are welcome! See our contribution guidelines
+We welcome contributions of all kinds! See our [contributing guide](CONTRIBUTING.md) for details.
 
 ## License
 

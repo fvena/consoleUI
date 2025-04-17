@@ -17,7 +17,7 @@
     }
   },
   "workspaces": [
-    "playground"
+    "playground/*"
   ],
   "scripts": {
     "dev": "tsup --watch",
@@ -34,7 +34,8 @@
     "docs:dev": "vitepress dev docs",
     "docs:build": "vitepress build docs",
     "docs:preview": "vitepress preview docs",
-    "playground": "npm run dev --workspace=playground",
+    "play:terminal": "npm run dev --workspace=playground/terminal",
+    "play:browser": "npm run dev --workspace=playground/browser",
     "size": "size-limit"
   },
   "lint-staged": {
@@ -83,6 +84,7 @@
     "@vitest/ui": "^3.0.8",
     "eslint": "^9.22.0",
     "husky": "^9.1.7",
+    "jsdom": "^26.1.0",
     "lint-staged": "^15.5.0",
     "personal-style-guide": "^0.6.0",
     "prettier": "^3.5.3",

@@ -2,10 +2,8 @@
   "extends": "personal-style-guide/typescript/node",
   "include": ["src"],
   "compilerOptions": {
-    "outDir": "dist",
-    "baseUrl": ".",
     "paths": {
-      "@franvena/consoleui": ["../src"]
+      "@franvena/consoleui": ["../../dist"]
     }
   }
 }

@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/fvena/consoleUI/compare/v1.0.0...v1.1.0) (2025-04-20)
+
+
+### Features
+
+* add color functions ([3210209](https://github.com/fvena/consoleUI/commit/321020936c2ebc8ef7f14698af8e45c65a5698a7))
+
 # 1.0.0 (2025-04-13)
 
 

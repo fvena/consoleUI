@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/fvena/consoleUI/compare/v1.1.0...v1.2.0) (2025-04-20)
+
+
+### Features
+
+* enhance text formatting capabilities ([1e36ace](https://github.com/fvena/consoleUI/commit/1e36acece34d149da879ac10e3ab9f9079817fbe))
+
 # [1.1.0](https://github.com/fvena/consoleUI/compare/v1.0.0...v1.1.0) (2025-04-20)
 
 

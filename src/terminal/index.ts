@@ -1,5 +1,25 @@
+/**
+ * Terminal environment implementation for ConsoleUI.
+ *
+ * This module provides styling capabilities for console output in terminal environments.
+ * It exports style functions that generate ANSI escape codes and a log function that processes
+ * these codes to display styled console output.
+ *
+ * @example
+ * ```typescript
+ * import { red, blue, bold, underline } from '@franvena/consoleui/terminal';
+ *
+ * console.log(red('Error message'));     // Prints in red
+ * console.log(blue('Info message'));     // Prints in blue
+ * console.log(bold('Important text'));   // Prints in bold
+ * console.log(underline('Highlighted')); // Prints underlined
+ * ```
+ *
+ * @throws TypeError If used in a non-Node.js environment
+ */
+
 import { createConsoleUI } from "../core/factory-console-ui";
-import { createStyle, makeStyle as makeStyle_ } from "./style-terminal";
+import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-terminal";
 
 /**
  * Runtime environment verification.
@@ -16,7 +36,7 @@ if (typeof process === "undefined") {
 /**
  * Creates the ConsoleUI instance configured for terminal environment
  */
-const consoleUI = createConsoleUI(createStyle, makeStyle_);
+const consoleUI = createConsoleUI(createStyle, makeStyle_, hex_);
 const api = consoleUI();
 
 export default api;
@@ -67,6 +87,7 @@ export const {
   gray,
   green,
   greenBright,
+  hex,
   hidden,
   italic,
   magenta,

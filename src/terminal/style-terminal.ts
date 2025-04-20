@@ -1,6 +1,13 @@
 import type { Style, StyleFunction, StyleOptions } from "../core/types";
 import { isColor } from "../utils/guards";
 import { DEFAULT_STYLE_OPTIONS } from "../core/constants";
+import {
+  detectColorSupport,
+  hexToRgb,
+  rgbToAnsi256,
+  rgbToAnsiBasic,
+  validateHex,
+} from "../utils/color";
 import { ANSI_COLORS, STYLES } from "./constants.terminal";
 
 /**
@@ -134,5 +141,42 @@ export function makeStyle(options: StyleOptions): StyleFunction {
     }
 
     return styledText;
+  };
+}
+
+/**
+ * Create a function that applies a hex color to text in the terminal environment
+ * @param color - The hex color code to apply
+ * @param isForeground - Whether the color should be applied to the foreground or background
+ * @returns The styled text
+ */
+export function hex(color: string, isForeground = false): StyleFunction {
+  return (text: string) => {
+    if (!text) return "";
+
+    const normalized = validateHex(color);
+    if (!normalized) return text;
+
+    const { b, g, r } = hexToRgb(normalized);
+    const colorSupport = detectColorSupport();
+
+    // Determine the base code based on foreground or background
+    const baseCode = isForeground ? 48 : 38;
+
+    // Use 24-bit color when true color is supported
+    if (colorSupport === "truecolor") {
+      return `\u001B[${String(baseCode)};2;${String(r)};${String(g)};${String(b)}m${text}\u001B[0m`;
+    }
+
+    // Use 256 colors when supported
+    if (colorSupport === "256") {
+      const ansiCode = rgbToAnsi256(r, g, b);
+      return `\u001B[${String(baseCode)};5;${String(ansiCode)}m${text}\u001B[0m`;
+    }
+
+    // Fallback to basic 16 colors
+    const basicCode = rgbToAnsiBasic(r, g, b);
+    const basicOffset = isForeground ? 40 : 30; // 30-37 for foreground, 40-47 for background
+    return `\u001B[${String(basicOffset + basicCode)}m${text}\u001B[0m`;
   };
 }

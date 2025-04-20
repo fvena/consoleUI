@@ -6,9 +6,10 @@ describe("createConsoleUI", () => {
     .fn()
     .mockImplementation((style: string) => (text: string) => `[${style}]${text}`);
   const mockMakeStyle = vi.fn().mockReturnValue((txt: string) => `styled-${txt}`);
+  const mockHex = vi.fn().mockReturnValue((txt: string) => `hex-${txt}`);
 
   it("should return an object with all style methods", () => {
-    const api = createConsoleUI(mockCreateStyle, mockMakeStyle)({ enabled: true });
+    const api = createConsoleUI(mockCreateStyle, mockMakeStyle, mockHex)({ enabled: true });
 
     expect(api.red("Hello")).toBe("[red]Hello");
     expect(api.makeStyle({ color: "blue" })("test")).toBe("styled-test");

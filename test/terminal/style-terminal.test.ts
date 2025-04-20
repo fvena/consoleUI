@@ -1,6 +1,15 @@
-import { describe, expect, it } from "vitest";
-import { createStyle, makeStyle } from "../../src/terminal/style-terminal";
+import { describe, expect, it, vi } from "vitest";
+import { createStyle, hex, makeStyle } from "../../src/terminal/style-terminal";
 import { ANSI_COLORS, ANSI_FORMATS, STYLES } from "../../src/terminal/constants.terminal";
+import * as colorUtilities from "../../src/utils/color";
+
+vi.mock("../../src/utils/color", async () => {
+  const actual = await vi.importActual<typeof colorUtilities>("../../src/utils/color");
+  return {
+    ...actual,
+    detectColorSupport: vi.fn().mockReturnValue("256"),
+  };
+});
 
 describe("Style Terminal", () => {
   describe("createStyle", () => {
@@ -207,6 +216,59 @@ describe("Style Terminal", () => {
           `${ANSI_FORMATS.italic}${ANSI_FORMATS.bold}${ANSI_COLORS.red}${ANSI_COLORS.bgYellow}Hello${STYLES.reset}${ANSI_FORMATS.italic}${ANSI_FORMATS.bold}${ANSI_COLORS.red}${STYLES.reset}${ANSI_FORMATS.italic}${ANSI_FORMATS.bold}${STYLES.reset}${ANSI_FORMATS.italic}${STYLES.reset}`,
         );
       });
+    });
+  });
+
+  describe("hex color", () => {
+    it("should use truecolor when supported", () => {
+      vi.mocked(colorUtilities.detectColorSupport).mockReturnValue("truecolor");
+      const customHex = hex("#FFAACC");
+      expect(customHex("Hello")).toBe(`\u001B[38;2;255;170;204mHello${STYLES.reset}`);
+    });
+
+    it("should use 256 color when supported", () => {
+      vi.mocked(colorUtilities.detectColorSupport).mockReturnValue("256");
+      const customHex = hex("#FFAACC");
+      expect(customHex("Hello")).toBe(`\u001B[38;5;218mHello${STYLES.reset}`);
+    });
+
+    it("should use basic colors when only basic support is available", () => {
+      vi.mocked(colorUtilities.detectColorSupport).mockReturnValue("basic");
+      const customHex = hex("#FFAACC"); // Pure red
+      expect(customHex("Hello")).toBe(`\u001B[37mHello${STYLES.reset}`);
+    });
+
+    it("should apply hex color codes to background", () => {
+      vi.mocked(colorUtilities.detectColorSupport).mockReturnValue("truecolor");
+      const customHex = hex("#FFAACC", true);
+      expect(customHex("Hello")).toBe(`\u001B[48;2;255;170;204mHello${STYLES.reset}`);
+    });
+
+    it("should apply hex color codes to text and background", () => {
+      vi.mocked(colorUtilities.detectColorSupport).mockReturnValue("truecolor");
+      const hexColor = hex("#FFAACC");
+      const backgroundHex = hex("#00FF00", true);
+      expect(hexColor(backgroundHex("Hello"))).toBe(
+        `\u001B[38;2;255;170;204m\u001B[48;2;0;255;0mHello${STYLES.reset}${STYLES.reset}`,
+      );
+    });
+
+    it("should handle invalid hex color codes", () => {
+      const customHex = hex("invalidColor");
+      expect(customHex("Hello")).toBe("Hello");
+    });
+
+    it("should handle undefined hex color codes", () => {
+      // @ts-expect-error - This is a test for undefined hex colors
+      // eslint-disable-next-line unicorn/no-useless-undefined -- This is a test for undefined hex colors
+      const customHex = hex(undefined);
+      expect(customHex("Hello")).toBe("Hello");
+    });
+
+    it("should handle non-string hex color codes", () => {
+      // @ts-expect-error - This is a test for non-string input types
+      const customHex = hex(123);
+      expect(customHex("Hello")).toBe("Hello");
     });
   });
 });

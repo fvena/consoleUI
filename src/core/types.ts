@@ -142,6 +142,20 @@ export interface StyleOptions {
  */
 export interface ConsoleUI extends Record<Style, StyleFunction> {
   /**
+   * Creates a function that applies a hex color to text
+   * @param color - The hex color code to apply
+   * @param text - The text to style
+   * @returns The styled text
+   *
+   * @example
+   * ```typescript
+   * const customColor = ui.hex('#FF0000');
+   * console.log(customColor('Hello, world!'));
+   * ```
+   */
+  hex: (color: string, isForeground?: boolean) => StyleFunction;
+
+  /**
    * Creates a custom style function with specified options
    *
    * @param options - Configuration for the style function

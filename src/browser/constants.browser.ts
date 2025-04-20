@@ -1,27 +1,29 @@
 import type { Colors, Styles } from "../core/types";
 
+export const BACKGROUND_STYLE = "padding: 2px 4px; border-radius: 2px";
+
 /**
  * CSS color values for browser text styling
  */
 export const CSS_COLORS = {
   // Background colors
-  bgBlack: "background-color: #000000; padding: 2px 4px; border-radius: 2px",
-  bgBlackBright: "background-color: #808080; padding: 2px 4px; border-radius: 2px",
-  bgBlue: "background-color: #0000FF; padding: 2px 4px; border-radius: 2px",
-  bgBlueBright: "background-color: #0066FF; padding: 2px 4px; border-radius: 2px",
-  bgCyan: "background-color: #00FFFF; padding: 2px 4px; border-radius: 2px",
-  bgCyanBright: "background-color: #00FFFF; padding: 2px 4px; border-radius: 2px",
-  bgGray: "background-color: #808080; padding: 2px 4px; border-radius: 2px",
-  bgGreen: "background-color: #008000; padding: 2px 4px; border-radius: 2px",
-  bgGreenBright: "background-color: #00FF00; padding: 2px 4px; border-radius: 2px",
-  bgMagenta: "background-color: #FF00FF; padding: 2px 4px; border-radius: 2px",
-  bgMagentaBright: "background-color: #FF40FF; padding: 2px 4px; border-radius: 2px",
-  bgRed: "background-color: #FF0000; padding: 2px 4px; border-radius: 2px",
-  bgRedBright: "background-color: #FF4040; padding: 2px 4px; border-radius: 2px",
-  bgWhite: "background-color: #FFFFFF; padding: 2px 4px; border-radius: 2px",
-  bgWhiteBright: "background-color: #FFFFFF; padding: 2px 4px; border-radius: 2px",
-  bgYellow: "background-color: #FFFF00; padding: 2px 4px; border-radius: 2px",
-  bgYellowBright: "background-color: #FFFF40; padding: 2px 4px; border-radius: 2px",
+  bgBlack: `background-color: #000000; ${BACKGROUND_STYLE}`,
+  bgBlackBright: `background-color: #808080; ${BACKGROUND_STYLE}`,
+  bgBlue: `background-color: #0000FF; ${BACKGROUND_STYLE}`,
+  bgBlueBright: `background-color: #0066FF; ${BACKGROUND_STYLE}`,
+  bgCyan: `background-color: #00FFFF; ${BACKGROUND_STYLE}`,
+  bgCyanBright: `background-color: #00FFFF; ${BACKGROUND_STYLE}`,
+  bgGray: `background-color: #808080; ${BACKGROUND_STYLE}`,
+  bgGreen: `background-color: #008000; ${BACKGROUND_STYLE}`,
+  bgGreenBright: `background-color: #00FF00; ${BACKGROUND_STYLE}`,
+  bgMagenta: `background-color: #FF00FF; ${BACKGROUND_STYLE}`,
+  bgMagentaBright: `background-color: #FF40FF; ${BACKGROUND_STYLE}`,
+  bgRed: `background-color: #FF0000; ${BACKGROUND_STYLE}`,
+  bgRedBright: `background-color: #FF4040; ${BACKGROUND_STYLE}`,
+  bgWhite: `background-color: #FFFFFF; ${BACKGROUND_STYLE}`,
+  bgWhiteBright: `background-color: #FFFFFF; ${BACKGROUND_STYLE}`,
+  bgYellow: `background-color: #FFFF00; ${BACKGROUND_STYLE}`,
+  bgYellowBright: `background-color: #FFFF40; ${BACKGROUND_STYLE}`,
 
   // Base colors
   black: "color: #000000",

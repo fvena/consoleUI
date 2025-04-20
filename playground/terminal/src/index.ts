@@ -27,6 +27,7 @@ import {
   gray,
   green,
   greenBright,
+  hex,
   hidden,
   italic,
   magenta,
@@ -126,14 +127,23 @@ console.log(`- ${bold(italic(magenta("Bold italic magenta")))}`);
 console.log(`- ${bold(underline(bgGreen(black("Bold underline on green"))))}`);
 console.log(`- ${italic(strikethrough(red("Italic strikethrough red")))}`);
 
-// 5. Nested Styles
+// 5. Hex Colors
+printSection("Hex Colors");
+console.log("Hex colors are perfect for customizing text and background colors:");
+const hexColor = hex("#FF4500");
+const hexColorBg = hex("#FFB84D", true);
+console.log(`- ${hexColor("Red")}`);
+console.log(`- ${hexColorBg("Green background")}`);
+console.log(`- ${hexColor(hexColorBg("Red on green background"))}`);
+
+// 6. Nested Styles
 printSection("Nested Styles");
 console.log("You can nest different colors for complex styling:");
 console.log(`Simple nesting: ${red("Red")} with ${blue("blue")} and ${green("green")}`);
 console.log(`Deep nesting: ${red(`Red ${blue(`with blue ${green("and green")} inside`)} text`)}`);
 console.log(`Alternative nesting: ${red(blue(green("Red → Blue → Green")))}`);
 
-// 6. Custom Styles
+// 7. Custom Styles
 printSection("Custom Styles");
 console.log("Create your own reusable styles with makeStyle:");
 
@@ -147,14 +157,14 @@ console.log(`${warningStyle("Warning:")} Please check your input`);
 console.log(`${successStyle("Success:")} Operation completed`);
 console.log(`${infoStyle("Info:")} System is running`);
 
-// 7. Disabled Styles
+// 8. Disabled Styles
 printSection("Disabled Styles");
 console.log("You can create styles with disabled colors:");
 const disabledStyle = makeStyle({ color: "red", enabled: false });
 console.log(`Normal: ${red("This is red")}`);
 console.log(`Disabled: ${disabledStyle("This would be red if enabled")}`);
 
-// 8. Practical Examples
+// 9. Practical Examples
 printSection("Practical Examples");
 console.log("Real-world usage examples:");
 

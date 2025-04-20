@@ -31,7 +31,7 @@
  */
 
 import { createConsoleUI } from "../core/factory-console-ui";
-import { createStyle, makeStyle as makeStyle_ } from "./style-browser";
+import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-browser";
 
 /**
  * Runtime environment verification.
@@ -49,7 +49,7 @@ if (!(globalThis.window && globalThis.document)) {
 /**
  * Creates the ConsoleUI instance configured for browser environment
  */
-const consoleUI = createConsoleUI(createStyle, makeStyle_);
+const consoleUI = createConsoleUI(createStyle, makeStyle_, hex_);
 const api = consoleUI();
 
 export default api;
@@ -101,6 +101,7 @@ export const {
   gray,
   green,
   greenBright,
+  hex,
   hidden,
   italic,
   magenta,

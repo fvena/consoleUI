@@ -93,9 +93,85 @@ ConsoleUI is perfect for:
 ### Colors and Styling
 
 - Basic colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`
-- Bright variants: `blackBright`, `redBright`, etc.
-- Backgrounds: `bgRed`, `bgGreen`, etc.
+- Bright variants: `blackBright`, `redBright`, `greenBright`, `yellowBright`, `blueBright`, `magentaBright`, `cyanBright`, `whiteBright`
+
+  ```typescript
+  // Terminal
+  console.log(red("Error: Something went wrong!"));
+  console.log(greenBright("Success: Operation completed!"));
+
+  // Browser
+  log(red("Error: Something went wrong!"));
+  log(greenBright("Success: Operation completed!"));
+  ```
+
+- Basic backgrounds: `bgRed`, `bgGreen`, `bgYellow`, `bgBlue`, `bgMagenta`, `bgCyan`, `bgWhite`
+- Bright backgrounds: `bgRedBright`, `bgGreenBright`, `bgYellowBright`, `bgBlueBright`, `bgMagentaBright`, `bgCyanBright`, `bgWhiteBright`
+
+  ```typescript
+  // Terminal
+  console.log(bgRed("Error: Something went wrong!"));
+  console.log(bgGreenBright("Success: Operation completed!"));
+
+  // Browser
+  log(bgRed("Error: Something went wrong!"));
+  log(bgGreenBright("Success: Operation completed!"));
+  ```
+
 - Modifiers: `bold`, `dim`, `italic`, `underline`, `inverse`
+
+  ```typescript
+  // Terminal
+  console.log(bold("Bold text"));
+  console.log(dim("Dim text"));
+  console.log(italic("Italic text"));
+  console.log(underline("Underlined text"));
+  console.log(inverse("Inverse text"));
+
+  // Browser
+  log(bold("Bold text"));
+  log(dim("Dim text"));
+  log(italic("Italic text"));
+  log(underline("Underlined text"));
+  log(inverse("Inverse text"));
+  ```
+
+### Hex Colors
+
+Function `hex` allows you to use hex colors in the terminal and browser.
+
+```typescript
+const orange = hex("#FFA500");
+const orangeBg = hex("#FFA500", true);
+
+// Terminal
+console.log(orange("Orange text"));
+console.log(orangeBg("Orange background"));
+console.log(orange(orangeBg("Orange text on orange background")));
+
+// Browser
+log(orange("Orange text"));
+log(orangeBg("Orange background"));
+log(orange(orangeBg("Orange text on orange background")));
+```
+
+### Make Style
+
+Function `makeStyle` allows you to create reusable styles.
+
+```typescript
+const errorStyle = makeStyle({
+  backgroundColor: "bgRed",
+  bold: true,
+  color: "black",
+});
+
+// Terminal
+console.log(errorStyle("Error: Something went wrong!"));
+
+// Browser
+log(errorStyle("Error: Something went wrong!"));
+```
 
 ### Components
 

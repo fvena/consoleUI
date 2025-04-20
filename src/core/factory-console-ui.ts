@@ -17,6 +17,7 @@ import { DEFAULT_OPTIONS } from "../core/constants";
  *
  * @param createStyle - Function to create a basic style function for a specific style type
  * @param makeStyle - Function to create a custom style function with advanced options
+ * @param hex - Function to create a hex style function
  * @returns A factory function that creates a configured ConsoleUI instance
  *
  * @remarks
@@ -40,6 +41,7 @@ import { DEFAULT_OPTIONS } from "../core/constants";
 export function createConsoleUI(
   createStyle: (styleType: Style, enabled: boolean) => StyleFunction,
   makeStyle: (options: StyleOptions) => StyleFunction,
+  hex: (color: string, isForeground?: boolean) => StyleFunction,
 ) {
   /**
    * Creates a ConsoleUI instance with the specified options
@@ -82,11 +84,12 @@ export function createConsoleUI(
       gray: createStyle("gray", options_.enabled),
       green: createStyle("green", options_.enabled),
       greenBright: createStyle("greenBright", options_.enabled),
+      hex,
       hidden: createStyle("hidden", options_.enabled),
       italic: createStyle("italic", options_.enabled),
       magenta: createStyle("magenta", options_.enabled),
       magentaBright: createStyle("magentaBright", options_.enabled),
-      makeStyle: (options: StyleOptions) => makeStyle(options),
+      makeStyle,
       red: createStyle("red", options_.enabled),
       redBright: createStyle("redBright", options_.enabled),
       reset: createStyle("reset", options_.enabled),

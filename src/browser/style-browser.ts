@@ -2,7 +2,8 @@ import type { Style, StyleFunction, StyleOptions } from "../core/types";
 import { isColor } from "../utils/guards";
 import { DEFAULT_STYLE_OPTIONS } from "../core/constants";
 import { camelToUpperSnake, upperSnakeToCamel } from "../utils/case-transform";
-import { CSS_COLORS, STYLES } from "./constants.browser";
+import { validateHex } from "../utils/color";
+import { BACKGROUND_STYLE, CSS_COLORS, STYLES } from "./constants.browser";
 
 /**
  * Creates a style function for the browser environment.
@@ -162,60 +163,62 @@ export function log(input: string): void {
     return;
   }
 
-  // Expresión regular para encontrar etiquetas de estilo
-  const tagRegex = /__STYLE_([A-Z_]+?)__/g;
+  // Regular expression for finding style tags
+  const tagRegex = /__STYLE_([A-Z0-9_#]+?)__/g;
 
-  // Variables para construir el console.log
-  const currentStyles: Style[] = []; // Pila de estilos activos
-  const styleValidityStack: boolean[] = []; // Pila para rastrear validez de estilos
-  let consoleString = ""; // String final para console.log
-  const styleArguments: string[] = []; // Argumentos de estilo para console.log
+  // Variables for building console.log
+  const currentStyles: Style[] = []; // Stack of active styles
+  const styleValidityStack: boolean[] = []; // Stack to track style validity
+  let consoleString = ""; // Final string for console.log
+  const styleArguments: string[] = []; // Style arguments for console.log
   let lastIndex = 0;
 
-  // Procesamos todas las coincidencias de etiquetas
-  input.replaceAll(tagRegex, (match, styleName: string, index: number) => {
-    // Añadimos el texto antes de la etiqueta al string de salida
+  // Process all tag matches
+  input.replaceAll(tagRegex, (match: string, styleName: string, index: number) => {
+    // Add text before the tag to the output string
     consoleString += input.slice(lastIndex, index);
 
-    // Convertimos el nombre del estilo a camelCase
-    const styleKey = upperSnakeToCamel(styleName) as Style;
-
-    // Si es un estilo válido (existe en STYLES y no es reset)
-    if (styleKey in STYLES && styleKey !== "reset") {
-      // Añadimos una directiva %c para el estilo
+    // If it's a hex color (starts with #)
+    if (styleName.startsWith("#")) {
       consoleString += "%c";
-      // Actualizamos los estilos actuales
-      currentStyles.push(styleKey);
+      currentStyles.push(styleName as Style);
       styleValidityStack.push(true);
-      // Añadimos el estilo combinado a los argumentos
       styleArguments.push(combineStyles(currentStyles));
-    } else if (styleKey === "reset") {
-      // Verificamos si el último estilo fue válido
-      const lastStyleValid = styleValidityStack.pop();
-      if (lastStyleValid === true) {
-        // Para reset, eliminamos el último estilo activo
-        currentStyles.pop();
-        // Añadimos una directiva %c y el estilo combinado (o vacío si no hay estilos)
-        consoleString += "%c";
-        styleArguments.push(combineStyles(currentStyles));
-      } else {
-        // Si el estilo no era válido o no hay estilos, añadimos el reset como texto literal
-        consoleString += match;
-      }
     } else {
-      // Si el estilo es inválido, lo añadimos como texto literal
-      consoleString += match;
-      styleValidityStack.push(false);
+      const styleKey = upperSnakeToCamel(styleName) as Style;
+      if (styleKey in STYLES && styleKey !== "reset") {
+        consoleString += "%c";
+        currentStyles.push(styleKey);
+        styleValidityStack.push(true);
+        styleArguments.push(combineStyles(currentStyles));
+      } else if (styleKey === "reset") {
+        // Check if the last style was valid
+        const lastStyleValid = styleValidityStack.pop();
+        if (lastStyleValid === true) {
+          // For reset, remove the last active style
+          currentStyles.pop();
+          // Add %c directive and combined style (or empty if no styles)
+          consoleString += "%c";
+          styleArguments.push(combineStyles(currentStyles));
+        } else {
+          // If the last style was invalid, add the match as-is
+          consoleString += match;
+        }
+      } else {
+        // If the style is not valid, add the match as-is
+        consoleString += match;
+        styleValidityStack.push(false);
+      }
     }
 
     lastIndex = index + match.length;
-    return match;
+    return "";
   });
 
-  // Añadimos cualquier texto restante después de la última etiqueta
+  // Add any remaining text
   consoleString += input.slice(lastIndex);
 
-  // Ejecutamos console.log con el string formateado y los argumentos de estilo
+  // Log with styles
   console.log(consoleString, ...styleArguments);
 }
 
@@ -240,7 +243,17 @@ function combineStyles(styles: Style[]): string {
 
   // Procesamos los estilos en orden, manteniendo solo el último para cada propiedad
   for (const style of styles) {
-    const styleValue = STYLES[style];
+    let styleValue = "";
+    if (style.startsWith("#")) {
+      const isBackground = style.endsWith("_BG");
+      const colorValue = style.slice(0, isBackground ? -3 : undefined);
+      styleValue = isBackground
+        ? `background-color: ${colorValue}; ${BACKGROUND_STYLE}`
+        : `color: ${style}`;
+    } else {
+      styleValue = STYLES[style];
+    }
+
     if (styleValue) {
       const cssProperty = styleValue.split(":")[0]?.trim();
       if (cssProperty) {
@@ -253,4 +266,24 @@ function combineStyles(styles: Style[]): string {
   return Object.values(cssProperties)
     .filter((style) => style !== "")
     .join("; ");
+}
+
+/**
+ * Creates a function that applies a hex color to text in the browser environment
+ * @param color - The hex color code to apply
+ * @param isForeground - Whether the color is for foreground (text) or background. Defaults to true.
+ * @returns The styled text
+ */
+export function hex(color: string, isForeground = false): StyleFunction {
+  return (text: string) => {
+    if (!text) return "";
+
+    const normalized = validateHex(color);
+    if (!normalized) return text;
+
+    const sufix = isForeground ? "_BG" : "";
+    const startMarker = `__STYLE_${normalized + sufix}__`;
+    const endMarker = "__STYLE_RESET__";
+    return `${startMarker}${text}${endMarker}`;
+  };
 }

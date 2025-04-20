@@ -1,5 +1,5 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createStyle, log, makeStyle } from "../../src/browser/style-browser";
+import { createStyle, hex, log, makeStyle } from "../../src/browser/style-browser";
 import { CSS_COLORS, CSS_FORMATS } from "../../src/browser/constants.browser";
 
 describe("Style Browser", () => {
@@ -394,6 +394,74 @@ describe("Style Browser", () => {
           "",
         );
       });
+    });
+
+    describe("hex", () => {
+      it("should apply hex color to text", () => {
+        log("__STYLE_#FF0000__Hello__STYLE_RESET__");
+        expect(consoleSpy).toHaveBeenCalledWith("%cHello%c", "color: #FF0000", "");
+      });
+
+      it("should apply hex color to background", () => {
+        log("__STYLE_#FF0000_BG__Hello__STYLE_RESET__");
+        expect(consoleSpy).toHaveBeenCalledWith(
+          "%cHello%c",
+          "background-color: #FF0000; padding: 2px 4px; border-radius: 2px",
+          "",
+        );
+      });
+
+      it("should apply hex color to text and background", () => {
+        log("__STYLE_#FF0000_BG__Hello__STYLE_RESET__");
+        expect(consoleSpy).toHaveBeenCalledWith(
+          "%cHello%c",
+          "background-color: #FF0000; padding: 2px 4px; border-radius: 2px",
+          "",
+        );
+      });
+    });
+  });
+
+  describe("hex color", () => {
+    it("should apply hex color to text", () => {
+      const customHex = hex("#FF0000");
+      expect(customHex("Hello")).toBe("__STYLE_#FF0000__Hello__STYLE_RESET__");
+    });
+
+    it("should apply background hex color to text", () => {
+      const customHex = hex("#FF0000", true);
+      expect(customHex("Hello")).toBe("__STYLE_#FF0000_BG__Hello__STYLE_RESET__");
+    });
+
+    it("should apply hex color to text and background", () => {
+      const colorHex = hex("#FFFFFF");
+      const backgroundHex = hex("#FF0000", true);
+      expect(colorHex(backgroundHex("Hello"))).toBe(
+        "__STYLE_#FFFFFF____STYLE_#FF0000_BG__Hello__STYLE_RESET____STYLE_RESET__",
+      );
+    });
+
+    it("should handle invalid hex colors", () => {
+      const customHex = hex("invalidHex");
+      expect(customHex("Hello")).toBe("Hello");
+    });
+
+    it("should handle empty hex colors", () => {
+      const customHex = hex("");
+      expect(customHex("Hello")).toBe("Hello");
+    });
+
+    it("should handle undefined hex colors", () => {
+      // @ts-expect-error - This is a test for non-string input types
+      // eslint-disable-next-line unicorn/no-useless-undefined -- This is a test for undefined hex colors
+      const customHex = hex(undefined);
+      expect(customHex("Hello")).toBe("Hello");
+    });
+
+    it("should handle non-string hex colors", () => {
+      // @ts-expect-error - This is a test for non-string input types
+      const customHex = hex(123);
+      expect(customHex("Hello")).toBe("Hello");
     });
   });
 });

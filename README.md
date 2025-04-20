@@ -1,117 +1,128 @@
-<br /><!-- markdownlint-disable-line -->
-
-<p align="right">
-  <a href="https://github.com/fvena/typescript-library-template-pro">
-    ⭐ &nbsp;&nbsp;<strong>Star this template if you find it useful</strong> ↗️
-  </a>
-</p>
+# ConsoleUI
 
 <p align="center">
   <img src="https://raw.githubusercontent.com/fvena/typescript-library-template-pro/main/docs/public/logo.png" alt="ConsoleUI" width="180"/>
-
-  <h1 align="center">ConsoleUI</h1>
-  <div align="center">A lightweight, high-performance UI toolkit for terminal and browser consoles. Create beautiful styled outputs with zero performance impact. ConsoleUI provides styling, colors, boxes, tables, spinners, and trees in a single tree-shakable package with zero dependencies, ensuring consistent results across all environments.</div>
 </p>
 
-<br/>
+<h3 align="center">A lightweight, high-performance UI toolkit for terminal and browser consoles</h3>
 
-<div align="center">
+<p align="center">
+Create beautiful styled outputs with zero performance impact. ConsoleUI provides styling, colors, boxes, tables, spinners, and trees in a single tree-shakable package with zero dependencies, ensuring consistent results across all environments.
+</p>
 
-<!-- markdownlint-disable MD042 -->
+<p align="center">
+  <a href="https://github.com/fvena/consoleUI/actions"><img src="https://github.com/fvena/consoleUI/workflows/CI%2FCD/badge.svg" alt="Build Status"></a>
+  <a href="https://www.npmjs.com/package/@franvena/consoleui"><img src="https://img.shields.io/npm/v/@franvena/consoleui.svg" alt="Version"></a>
+  <a href="https://www.npmjs.com/package/@franvena/consoleui"><img src="https://img.shields.io/npm/dm/@franvena/consoleui.svg" alt="Downloads"></a>
+  <a href="https://github.com/fvena/consoleUI/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/consolaui.svg" alt="License"></a>
+  <a href="https://github.com/fvena/consoleUI"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+</p>
 
-![GitHub package.json version](https://img.shields.io/github/package-json/v/fvena/consoleUI)
-[![Status](https://img.shields.io/badge/status-active-success.svg)]()
-[![Build Status](https://github.com/fvena/consoleUI/workflows/CI%2FCD/badge.svg)]()
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
-[![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com)
+## Why ConsoleUI?
 
-<!-- markdownlint-enable MD042 -->
+Current console styling libraries often force developers to juggle multiple packages for different needs - one for colors, another for spinners, and yet another for tables. This leads to inconsistent APIs, bloated dependencies, and varying performance characteristics. ConsoleUI solves these problems by providing:
 
-</div>
-
-## Features
-
-- ⚡️ **Blazing fast**: Engineered for zero-overhead performance
-- 🪶 **Ultralight**: Tree-shakable imports ensure minimal footprint
-- 🧩 **All-in-one**: Unified API for all your console styling needs
-- 🔄 **Cross-environment**: Works identically in Node.js and browsers
-- 🛠️ **Zero dependencies**: No bloat, just pure functionality
-
-## Overview
-
-ConsoleUI solves the common problem of developers needing to juggle multiple libraries for console styling needs. Instead of importing separate packages for colors, spinners, boxes, and tables—each with their own dependencies, API patterns, and performance characteristics—ConsoleUI provides everything in one cohesive package.
-
-### Why ConsoleUI?
-
-- **Consistent Experience**: The same API works seamlessly across terminal and browser consoles
-- **Modular Design**: Import only what you need with full tree-shaking support
-- **Performance First**: Built with performance as a priority, not an afterthought
-- **Developer Friendly**: Intuitive API with comprehensive TypeScript definitions
-- **Modern Architecture**: Built on modern JavaScript practices and patterns
-
-### Visual Examples
-
-![Terminal Styling Example](https://via.placeholder.com/800x400?text=Terminal+Styling+Example)
-![Browser Console Example](https://via.placeholder.com/800x400?text=Browser+Console+Example)
+- **Unified API**: Same patterns across all components, works identically in Node.js and browsers
+- **Zero Dependencies**: No external dependencies, reducing security risks and bundle size
+- **Tree-Shaking Support**: Import only what you need, keeping your bundle lean
+- **Type Safety**: Comprehensive TypeScript definitions for better development experience
+- **Cross-Environment**: Consistent behavior between terminal and browser environments
+- **High Performance**: Optimized for minimal overhead and maximum speed
 
 ## Quick Start
 
 ```bash
-npm install consoleui
+# npm
+npm install @franvena/consoleui
+
+# pnpm
+pnpm add @franvena/consoleui
+
+# yarn
+yarn add @franvena/consoleui
 ```
 
-```javascript
-// Terminal environment
-import { red, bold, box } from "consoleui/terminal";
+### Terminal
 
-console.log(red("Error message"));
-console.log(bold("Important notice"));
-console.log(box("Content in a box", { borderColor: "blue" }));
+```typescript
+import { red, greenBright, box } from "@franvena/consoleui/terminal";
 
-// Browser environment
-import { red, bold, box } from "consoleui/browser";
+// Basic colors
+console.log(red("Error: Something went wrong!"));
 
-console.log(red("Error message"));
-console.log(bold("Important notice"));
-console.log(box("Content in a box", { borderColor: "blue" }));
+// Bright colors
+console.log(greenBright("Success: Operation completed!"));
+
+// Boxes
+console.log(box("Important message", { padding: 1 }));
 ```
 
-## Why Choose ConsoleUI Over Alternatives?
+### Browser
 
-| Feature               | ConsoleUI                              | Other Libraries                        |
-| --------------------- | -------------------------------------- | -------------------------------------- |
-| **Unified API**       | ✅ Same patterns across all components | ❌ Different APIs per library          |
-| **Cross-environment** | ✅ Works in both terminal and browser  | ❌ Often terminal-only or browser-only |
-| **Tree-shaking**      | ✅ Import only what you need           | ❌ Often all-or-nothing imports        |
-| **Performance**       | ✅ Optimized for minimal overhead      | ❌ Performance varies widely           |
-| **Dependencies**      | ✅ Zero external dependencies          | ❌ Often multiple nested dependencies  |
-| **Bundle size**       | ✅ Minimal footprint                   | ❌ Combines multiple libraries' weight |
-| **TypeScript**        | ✅ Comprehensive type definitions      | ❌ Inconsistent type support           |
+```typescript
+import { red, greenBright, box, log } from "@franvena/consoleui/browser";
 
-## Who Uses ConsoleUI?
+// Basic colors
+log(red("Error: Something went wrong!"));
 
-ConsoleUI is perfect for:
-
-- **CLI Application Developers**: Create beautiful, information-rich terminal interfaces
-- **DevOps Teams**: Build readable diagnostic and monitoring tools
-- **Web Developers**: Debug with style in browser consoles
-- **Library Authors**: Enhance your library's console output
-- **Enterprise Applications**: Standardize console styling across your organization
+// Bright colors
+log(greenBright("Success: Operation completed!"));
+```
 
 ## Documentation
 
-[Full documentation website →](https://consoleui.dev)
+Visit our [documentation website](https://consoleui.dev) for:
+
+- [Getting Started Guide](https://consoleui.dev/guide/getting-started)
+- [API Reference](https://consoleui.dev/api/)
+- [Examples](https://consoleui.dev/examples/)
+- [Playground](https://consoleui.dev/playground/)
+
+## Use Cases
+
+ConsoleUI is perfect for:
+
+- **CLI Applications**: Create beautiful, information-rich terminal interfaces
+- **Development Tools**: Enhance logging and debugging output
+- **DevOps Scripts**: Build readable diagnostic and monitoring tools
+- **Web Applications**: Debug with style in browser consoles
+- **Libraries**: Provide consistent and beautiful console output
+
+## Available Features
+
+### Colors and Styling
+
+- Basic colors: `black`, `red`, `green`, `yellow`, `blue`, `magenta`, `cyan`, `white`
+- Bright variants: `blackBright`, `redBright`, etc.
+- Backgrounds: `bgRed`, `bgGreen`, etc.
+- Modifiers: `bold`, `dim`, `italic`, `underline`, `inverse`
+
+### Components
+
+- `box`: Create bordered boxes with customizable styles
+- `table`: Display data in formatted tables
+- `tree`: Show hierarchical data structures
+- `spinner`: Show loading indicators
+- `progress`: Display progress bars
 
 ## Contributing
 
-We welcome contributions of all kinds! See our [contributing guide](CONTRIBUTING.md) for details.
+We love your input! Check out our [Contributing Guide](CONTRIBUTING.md) for ways to get started. Every contribution helps:
+
+- Reporting bugs
+- Suggesting features
+- Improving documentation
+- Reviewing pull requests
+- Submitting pull requests
 
 ## License
 
-This template is [MIT licensed](./LICENSE) - use it freely for personal and commercial projects.
+[MIT](./LICENSE) © [Francisco Vena](https://github.com/fvena)
 
 ---
 
 <p align="center">
-  Your ⭐ motivates continued development and maintenance
+  <a href="https://github.com/fvena/consoleUI">
+    ⭐ Star us on GitHub
+  </a>
 </p>

@@ -1,18 +1,186 @@
-import { add } from "@franvena/consoleui";
+import {
+  bgBlack,
+  bgBlackBright,
+  bgBlue,
+  bgBlueBright,
+  bgCyan,
+  bgCyanBright,
+  bgGray,
+  bgGreen,
+  bgGreenBright,
+  bgMagenta,
+  bgMagentaBright,
+  bgRed,
+  bgRedBright,
+  bgWhite,
+  bgWhiteBright,
+  bgYellow,
+  bgYellowBright,
+  black,
+  blackBright,
+  blue,
+  blueBright,
+  cyan,
+  cyanBright,
+  gray,
+  green,
+  greenBright,
+  log,
+  magenta,
+  magentaBright,
+  makeStyle,
+  red,
+  redBright,
+  white,
+  whiteBright,
+  yellow,
+  yellowBright,
+} from "@franvena/consoleui/browser";
 
-const number1 = document.querySelector("#num1");
-const number2 = document.querySelector("#num2");
-const result = document.querySelector("#result");
+/**
+ * ConsoleUI Browser Examples
+ * This file demonstrates the various features and capabilities of the ConsoleUI browser styling library.
+ * Open your browser's console to see the styled output.
+ */
 
-number1.addEventListener("input", () => {
-  result.value = add(Number.parseFloat(number1.value), Number.parseFloat(number2.value));
-});
+// Helper function to create section headers
+const printSection = (title) => {
+  log("\n" + "=".repeat(80));
+  log(green(title));
+  log("=".repeat(80) + "\n");
+};
 
-number2.addEventListener("input", () => {
-  result.value = add(Number.parseFloat(number1.value), Number.parseFloat(number2.value));
-});
+// 1. Basic Colors
+printSection("Basic Colors");
+log("Basic colors are perfect for simple text highlighting:");
+log(`- ${black("black")} - Default black text`);
+log(`- ${red("red")} - For errors and warnings`);
+log(`- ${green("green")} - For success messages`);
+log(`- ${yellow("yellow")} - For warnings and highlights`);
+log(`- ${blue("blue")} - For information`);
+log(`- ${magenta("magenta")} - For special content`);
+log(`- ${cyan("cyan")} - For system messages`);
+log(`- ${white("white")} - For regular content`);
+log(`- ${gray("gray")} - For subtle text`);
 
-result.value = add(Number.parseFloat(number1.value), Number.parseFloat(number2.value));
+// 2. Bright Colors
+printSection("Bright Colors");
+log("Bright variants provide more vibrant options:");
+log(`- ${blackBright("blackBright")} - Brighter black (gray)`);
+log(`- ${redBright("redBright")} - Vibrant red`);
+log(`- ${greenBright("greenBright")} - Vibrant green`);
+log(`- ${yellowBright("yellowBright")} - Vibrant yellow`);
+log(`- ${blueBright("blueBright")} - Vibrant blue`);
+log(`- ${magentaBright("magentaBright")} - Vibrant magenta`);
+log(`- ${cyanBright("cyanBright")} - Vibrant cyan`);
+log(`- ${whiteBright("whiteBright")} - Vibrant white`);
 
-console.log("Hello ConsoleUI!");
-console.log(`add(5, 3) =`, add(5, 3));
+// 3. Background Colors
+printSection("Background Colors");
+log("Background colors are perfect for highlighting text:");
+log(`- ${white(bgBlack("bgBlack"))} - Default black background`);
+log(`- ${black(bgRed("bgRed"))} - For errors and warnings`);
+log(`- ${black(bgGreen("bgGreen"))} - For success messages`);
+log(`- ${black(bgYellow("bgYellow"))} - For warnings and highlights`);
+log(`- ${black(bgBlue("bgBlue"))} - For information`);
+log(`- ${black(bgMagenta("bgMagenta"))} - For special content`);
+log(`- ${black(bgCyan("bgCyan"))} - For system messages`);
+log(`- ${black(bgWhite("bgWhite"))} - For regular content`);
+log(`- ${black(bgGray("bgGray"))} - For subtle text`);
+log();
+log("Bright variants provide more vibrant options:");
+log(`- ${white(bgBlackBright("bgBlackBright"))} - Brighter black (gray)`);
+log(`- ${black(bgRedBright("bgRedBright"))} - Vibrant red`);
+log(`- ${black(bgGreenBright("bgGreenBright"))} - Vibrant green`);
+log(`- ${black(bgYellowBright("bgYellowBright"))} - Vibrant yellow`);
+log(`- ${black(bgBlueBright("bgBlueBright"))} - Vibrant blue`);
+log(`- ${black(bgMagentaBright("bgMagentaBright"))} - Vibrant magenta`);
+log(`- ${black(bgCyanBright("bgCyanBright"))} - Vibrant cyan`);
+log(`- ${black(bgWhiteBright("bgWhiteBright"))} - Vibrant white`);
+
+// 4. Nested Styles
+printSection("Nested Styles");
+log("You can nest different colors for complex styling:");
+log(`Simple nesting: ${red("Red")} with ${blue("blue")} and ${green("green")}`);
+log(`Deep nesting: ${red(`Red ${blue(`with blue ${green("and green")} inside`)} text`)}`);
+log(`Alternative nesting: ${red(blue(green("Red → Blue → Green")))}`);
+
+// 5. Custom Styles
+printSection("Custom Styles");
+log("Create your own reusable styles with makeStyle:");
+
+const errorStyle = makeStyle({ backgroundColor: "bgRed", color: "black" });
+const warningStyle = makeStyle({ backgroundColor: "bgYellow", color: "black" });
+const successStyle = makeStyle({ backgroundColor: "bgGreen", color: "black" });
+const infoStyle = makeStyle({ backgroundColor: "bgBlue", color: "black" });
+
+log(`${errorStyle("Error:")} Something went wrong`);
+log(`${warningStyle("Warning:")} Please check your input`);
+log(`${successStyle("Success:")} Operation completed`);
+log(`${infoStyle("Info:")} System is running`);
+
+// 6. Disabled Styles
+printSection("Disabled Styles");
+log("You can create styles with disabled colors:");
+const disabledStyle = makeStyle({ color: "red", enabled: false });
+log(`Normal: ${red("This is red")}`);
+log(`Disabled: ${disabledStyle("This would be red if enabled")}`);
+
+// 7. Practical Examples
+printSection("Practical Examples");
+log("Real-world usage examples:");
+
+// Branding
+log(bgBlueBright(black("ConsoleUI")));
+log(black(bgRedBright("Hello") + bgBlueBright("World")));
+
+// Log levels
+log(`${gray("[2024-03-19 10:30:00]")} ${errorStyle("ERROR")} Failed to connect to database`);
+log(`${gray("[2024-03-19 10:30:01]")} ${warningStyle("WARN")} High memory usage detected`);
+log(`${gray("[2024-03-19 10:30:02]")} ${infoStyle("INFO")} Server started on port 3000`);
+log(`${gray("[2024-03-19 10:30:03]")} ${successStyle("SUCCESS")} Backup completed`);
+
+// Progress indication
+log("\nTask Progress:");
+log(`[${green("■".repeat(5))}${gray("□".repeat(5))}] 50% Complete`);
+
+// Status indicators
+log("\nService Status:");
+log(`Database: ${green("●")} Connected`);
+log(`Cache: ${yellow("●")} Syncing`);
+log(`API: ${red("●")} Offline`);
+
+// JSON highlighting
+log("\nJSON Output:");
+log(`${gray("{")}
+  ${cyan('"status"')}: ${green('"success"')},
+  ${cyan('"data"')}: ${gray("{")}
+    ${cyan('"id"')}: ${yellow("123")},
+    ${cyan('"name"')}: ${green('"Test"')}
+  ${gray("}")}
+${gray("}")}`);
+
+// 7. Browser-specific Examples
+printSection("Browser-specific Examples");
+
+// Console group example
+log("\nConsole Groups:");
+console.group("User Authentication");
+log(`${infoStyle("→")} Checking credentials...`);
+log(`${successStyle("✓")} User authenticated`);
+log(`${infoStyle("→")} Loading profile...`);
+log(`${successStyle("✓")} Profile loaded`);
+console.groupEnd();
+
+// Performance logging
+log("\nPerformance Metrics:");
+log(`${gray("[")}${blue("PERF")}${gray("]")} Page load: ${green("1.2s")}`);
+log(`${gray("[")}${blue("PERF")}${gray("]")} API response: ${green("300ms")}`);
+log(`${gray("[")}${blue("PERF")}${gray("]")} Render time: ${blue("800ms")}`);
+
+// Network status
+log("\nNetwork Status:");
+log(`${gray("[")}${green("200")}${gray("]")} ${gray("GET")} /api/users`);
+log(`${gray("[")}${yellow("304")}${gray("]")} ${gray("GET")} /api/cache`);
+log(`${gray("[")}${red("404")}${gray("]")} ${gray("GET")} /api/missing`);
+log(`${gray("[")}${red("500")}${gray("]")} ${gray("POST")} /api/error`);

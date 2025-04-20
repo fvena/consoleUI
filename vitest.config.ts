@@ -20,6 +20,9 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          env: {
+            CONSOLEUI_ENV: "terminal",
+          },
           environment: "node",
           include: ["test/core/**/*.test.ts", "test/terminal/**/*.test.ts"],
           name: "terminal",
@@ -28,6 +31,9 @@ export default defineConfig({
       {
         extends: true,
         test: {
+          env: {
+            CONSOLEUI_ENV: "browser",
+          },
           environment: "jsdom",
           include: ["test/browser/**/*.test.ts"],
           name: "browser",

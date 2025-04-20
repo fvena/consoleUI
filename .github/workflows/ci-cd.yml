@@ -31,9 +31,14 @@ jobs:
 
       - run: npm ci --ignore-scripts
       - run: npm run build
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dist
+          path: dist/
 
   lint:
     name: Lint and Typecheck
+    needs: build
     runs-on: ubuntu-22.04
 
     steps:
@@ -48,6 +53,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
+      - uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
       - run: npm ci --ignore-scripts
       - run: npm run lint
       - run: npm run typecheck

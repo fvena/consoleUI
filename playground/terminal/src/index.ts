@@ -20,16 +20,22 @@ import {
   blackBright,
   blue,
   blueBright,
+  bold,
   cyan,
   cyanBright,
+  dim,
   gray,
   green,
   greenBright,
+  hidden,
+  italic,
   magenta,
   magentaBright,
   makeStyle,
   red,
   redBright,
+  strikethrough,
+  underline,
   white,
   whiteBright,
   yellow,
@@ -96,35 +102,59 @@ console.log(`- ${black(bgMagentaBright("bgMagentaBright"))} - Vibrant magenta`);
 console.log(`- ${black(bgCyanBright("bgCyanBright"))} - Vibrant cyan`);
 console.log(`- ${black(bgWhiteBright("bgWhiteBright"))} - Vibrant white`);
 
-// 4. Nested Styles
+// 4. Text Formatting
+printSection("Text Formatting");
+console.log("Text formatting options for enhanced typography:");
+console.log(`- ${bold("bold")} - For strong emphasis`);
+console.log(`- ${italic("italic")} - For italicized text`);
+console.log(`- ${underline("underline")} - For underlining text`);
+console.log(`- ${strikethrough("strikethrough")} - For crossed-out text`);
+console.log(`- ${dim("dim")} - For less prominent text`);
+console.log(`- ${hidden("hidden")} - For hidden text (hover to see)`);
+
+console.log("\nCombining text formats with colors:");
+console.log(`- ${bold(blue("Bold blue text"))}`);
+console.log(`- ${italic(green("Italic green text"))}`);
+console.log(`- ${underline(red("Underlined red text"))}`);
+
+console.log("\nCombining text formats with background colors:");
+console.log(`- ${bold(yellow("Bold text on yellow"))}`);
+console.log(`- ${italic(blue("Italic text on blue"))}`);
+
+console.log("\nComplex combinations:");
+console.log(`- ${bold(italic(magenta("Bold italic magenta")))}`);
+console.log(`- ${bold(underline(bgGreen(black("Bold underline on green"))))}`);
+console.log(`- ${italic(strikethrough(red("Italic strikethrough red")))}`);
+
+// 5. Nested Styles
 printSection("Nested Styles");
 console.log("You can nest different colors for complex styling:");
 console.log(`Simple nesting: ${red("Red")} with ${blue("blue")} and ${green("green")}`);
 console.log(`Deep nesting: ${red(`Red ${blue(`with blue ${green("and green")} inside`)} text`)}`);
 console.log(`Alternative nesting: ${red(blue(green("Red → Blue → Green")))}`);
 
-// 5. Custom Styles
+// 6. Custom Styles
 printSection("Custom Styles");
 console.log("Create your own reusable styles with makeStyle:");
 
-const errorStyle = makeStyle({ backgroundColor: "bgRed", color: "black" });
-const warningStyle = makeStyle({ backgroundColor: "bgYellow", color: "black" });
-const successStyle = makeStyle({ backgroundColor: "bgGreen", color: "black" });
-const infoStyle = makeStyle({ backgroundColor: "bgBlue", color: "black" });
+const errorStyle = makeStyle({ backgroundColor: "bgRed", bold: true, color: "black" });
+const warningStyle = makeStyle({ backgroundColor: "bgYellow", bold: true, color: "black" });
+const successStyle = makeStyle({ backgroundColor: "bgGreen", bold: true, color: "black" });
+const infoStyle = makeStyle({ backgroundColor: "bgBlue", bold: true, color: "black" });
 
 console.log(`${errorStyle("Error:")} Something went wrong`);
 console.log(`${warningStyle("Warning:")} Please check your input`);
 console.log(`${successStyle("Success:")} Operation completed`);
 console.log(`${infoStyle("Info:")} System is running`);
 
-// 6. Disabled Styles
+// 7. Disabled Styles
 printSection("Disabled Styles");
 console.log("You can create styles with disabled colors:");
 const disabledStyle = makeStyle({ color: "red", enabled: false });
 console.log(`Normal: ${red("This is red")}`);
 console.log(`Disabled: ${disabledStyle("This would be red if enabled")}`);
 
-// 7. Practical Examples
+// 8. Practical Examples
 printSection("Practical Examples");
 console.log("Real-world usage examples:");
 

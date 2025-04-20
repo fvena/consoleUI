@@ -1,7 +1,7 @@
 import type { Colors, Styles } from "../core/types";
 
 /**
- * CSS color definitions for browser styling
+ * CSS color values for browser text styling
  */
 export const CSS_COLORS = {
   // Background colors
@@ -44,14 +44,27 @@ export const CSS_COLORS = {
 } as const satisfies Colors;
 
 /**
+ * CSS styles for text formatting
+ */
+export const CSS_FORMATS = {
+  bold: "font-weight: bold",
+  dim: "opacity: 0.5",
+  hidden: "visibility: hidden",
+  italic: "font-style: italic",
+  strikethrough: "text-decoration: line-through",
+  underline: "text-decoration: underline",
+} as const;
+
+/**
  * CSS style for resetting text formatting
  */
-export const RESET_STYLE = "";
+export const RESET = "";
 
 /**
  * All CSS styles supported by the library
  */
 export const STYLES = {
   ...CSS_COLORS,
-  reset: RESET_STYLE,
+  ...CSS_FORMATS,
+  reset: RESET,
 } as const satisfies Styles;

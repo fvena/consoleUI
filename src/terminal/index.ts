@@ -23,17 +23,19 @@ export default api;
 export { consoleUI };
 
 /**
- * Pre-configured style functions for common terminal colors
- * Each function applies the corresponding ANSI color to the input text
+ * Pre-configured style functions for common terminal colors and formats
+ * Each function applies the corresponding ANSI color or format to the input text
  *
  * @remarks
- * Import and use these functions directly to apply colors to your terminal output:
+ * Import and use these functions directly to apply colors and formats to your terminal output:
  *
  * ```typescript
- * import { red, blue } from '@franvena/consoleui/terminal';
+ * import { red, blue, bold, underline } from '@franvena/consoleui/terminal';
  *
  * console.log(red('Error message'));     // Prints in red
  * console.log(blue('Info message'));     // Prints in blue
+ * console.log(bold('Important text'));   // Prints in bold
+ * console.log(underline('Highlighted')); // Prints underlined
  * ```
  */
 export const {
@@ -58,16 +60,22 @@ export const {
   blackBright,
   blue,
   blueBright,
+  bold,
   cyan,
   cyanBright,
+  dim,
   gray,
   green,
   greenBright,
+  hidden,
+  italic,
   magenta,
   magentaBright,
   makeStyle,
   red,
   redBright,
+  strikethrough,
+  underline,
   white,
   whiteBright,
   yellow,

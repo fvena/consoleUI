@@ -65,13 +65,25 @@ export function createStyle(style: Style, enabled = true): StyleFunction {
  *   - enabled: Whether styling should be applied (defaults to true)
  *   - color: The text color to apply (optional)
  *   - backgroundColor: The background color to apply (optional)
+ *   - bold: Apply bold formatting (optional)
+ *   - italic: Apply italic formatting (optional)
+ *   - underline: Apply underline formatting (optional)
+ *   - strikethrough: Apply strikethrough formatting (optional)
+ *   - dim: Apply dim formatting (optional)
+ *   - hidden: Apply hidden formatting (optional)
  * @returns A function that applies the specified styles to input text
  *
  * @remarks
  * Usage example:
  * ```typescript
- * const customStyle = makeStyle({ color: 'blue', backgroundColor: 'bgWhite', enabled: true });
- * console.log(customStyle('Info message')); // Will print in blue on white background
+ * const customStyle = makeStyle({
+ *   color: 'blue',
+ *   backgroundColor: 'bgWhite',
+ *   bold: true,
+ *   underline: true,
+ *   enabled: true
+ * });
+ * console.log(customStyle('Info message')); // Will print in blue on white background, bold and underlined
  *
  * const disabledStyle = makeStyle({ enabled: false });
  * console.log(disabledStyle('Normal text')); // Will print without styling
@@ -86,12 +98,39 @@ export function makeStyle(options: StyleOptions): StyleFunction {
 
     let styledText = text;
 
+    // Apply background color if specified
     if (options_.backgroundColor && isColor(options_.backgroundColor, ANSI_COLORS)) {
       styledText = createStyle(options_.backgroundColor)(styledText);
     }
 
+    // Apply text color if specified
     if (options_.color && isColor(options_.color, ANSI_COLORS)) {
       styledText = createStyle(options_.color)(styledText);
+    }
+
+    // Apply text formatting options
+    if (options_.bold) {
+      styledText = createStyle("bold")(styledText);
+    }
+
+    if (options_.italic) {
+      styledText = createStyle("italic")(styledText);
+    }
+
+    if (options_.underline) {
+      styledText = createStyle("underline")(styledText);
+    }
+
+    if (options_.strikethrough) {
+      styledText = createStyle("strikethrough")(styledText);
+    }
+
+    if (options_.dim) {
+      styledText = createStyle("dim")(styledText);
+    }
+
+    if (options_.hidden) {
+      styledText = createStyle("hidden")(styledText);
     }
 
     return styledText;

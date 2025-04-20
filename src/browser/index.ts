@@ -56,25 +56,20 @@ export default api;
 export { consoleUI };
 
 /**
- * Pre-configured color style functions.
- * Each function generates a string with special style tags that must be processed
- * by the `log` function to display styled output.
+ * Pre-configured style functions for common browser colors and formats
+ * Each function applies the corresponding CSS color or format to the input text
  *
  * Important: Do not use console.log directly with these functions. Always use the
  * exported `log` function to display styled text.
  *
  * @example
  * ```typescript
- * import { red, blue, green, log } from '@franvena/consoleui/browser';
+ * import { red, blue, bold, underline, log } from '@franvena/consoleui/browser';
  *
- * // Single style
- * log(red('Error'));
- *
- * // Combining styles
- * log(red('Error: ') + blue('Details'));
- *
- * // Nested content
- * log(green('Success: ' + blue('Operation completed')));
+ * log(red('Error message'));     // Prints in red
+ * log(blue('Info message'));     // Prints in blue
+ * log(bold('Important text'));   // Prints in bold
+ * log(underline('Highlighted')); // Prints underlined
  * ```
  */
 export const {
@@ -99,16 +94,22 @@ export const {
   blackBright,
   blue,
   blueBright,
+  bold,
   cyan,
   cyanBright,
+  dim,
   gray,
   green,
   greenBright,
+  hidden,
+  italic,
   magenta,
   magentaBright,
   makeStyle,
   red,
   redBright,
+  strikethrough,
+  underline,
   white,
   whiteBright,
   yellow,

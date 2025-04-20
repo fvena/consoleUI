@@ -31,5 +31,13 @@ export const DEFAULT_OPTIONS: ConsoleUIOptions = {
  * ```
  */
 export const DEFAULT_STYLE_OPTIONS: StyleOptions = {
+  backgroundColor: undefined,
+  bold: false,
+  color: undefined,
+  dim: false,
   enabled: true,
+  hidden: false,
+  italic: false,
+  strikethrough: false,
+  underline: false,
 };

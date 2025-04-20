@@ -44,6 +44,18 @@ export const ANSI_COLORS = {
 } as const satisfies Colors;
 
 /**
+ * ANSI codes for text formatting
+ */
+export const ANSI_FORMATS = {
+  bold: "\u001B[1m",
+  dim: "\u001B[2m",
+  hidden: "\u001B[8m",
+  italic: "\u001B[3m",
+  strikethrough: "\u001B[9m",
+  underline: "\u001B[4m",
+} as const;
+
+/**
  * ANSI code for resetting text formatting
  */
 export const RESET = "\u001B[0m";
@@ -53,5 +65,6 @@ export const RESET = "\u001B[0m";
  */
 export const STYLES = {
   ...ANSI_COLORS,
+  ...ANSI_FORMATS,
   reset: RESET,
 } as const satisfies Styles;

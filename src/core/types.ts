@@ -45,9 +45,14 @@ export type Color =
   | "yellowBright";
 
 /**
+ * Available text formatting styles
+ */
+export type TextFormat = "bold" | "dim" | "hidden" | "italic" | "strikethrough" | "underline";
+
+/**
  * All available text styles
  */
-export type Style = "reset" | BackgroundColor | Color;
+export type Style = "reset" | BackgroundColor | Color | TextFormat;
 
 /**
  * Maps color names to their corresponding style codes
@@ -72,6 +77,66 @@ export type Styles = Record<Style, string>;
 export type StyleFunction = (text: string) => string;
 
 /**
+ * Configuration options for creating custom styles
+ * Used with the makeStyle function to create specialized styling functions
+ */
+export interface StyleOptions {
+  /**
+   * The background color to apply to the text.
+   */
+  backgroundColor?: BackgroundColor;
+
+  /**
+   * Apply bold formatting to the text
+   * @defaultValue false
+   */
+  bold?: boolean;
+
+  /**
+   * The color to apply to the text.
+   */
+  color?: Color;
+
+  /**
+   * Apply dim formatting to the text
+   * @defaultValue false
+   */
+  dim?: boolean;
+
+  /**
+   * Controls whether this specific style is enabled
+   * Overrides the global enabled setting for this style
+   *
+   * @defaultValue true
+   */
+  enabled?: boolean;
+
+  /**
+   * Apply hidden formatting to the text
+   * @defaultValue false
+   */
+  hidden?: boolean;
+
+  /**
+   * Apply italic formatting to the text
+   * @defaultValue false
+   */
+  italic?: boolean;
+
+  /**
+   * Apply strikethrough formatting to the text
+   * @defaultValue false
+   */
+  strikethrough?: boolean;
+
+  /**
+   * Apply underline formatting to the text
+   * @defaultValue false
+   */
+  underline?: boolean;
+}
+
+/**
  * The main ConsoleUI API interface
  * Provides a complete set of styling functions and utilities
  */
@@ -84,7 +149,7 @@ export interface ConsoleUI extends Record<Style, StyleFunction> {
    *
    * @example
    * ```typescript
-   * const warning = ui.makeStyle({ color: 'yellow', enabled: true });
+   * const warning = ui.makeStyle({ color: 'yellow', bold: true, enabled: true });
    * console.log(warning('Warning message'));
    * ```
    */
@@ -107,28 +172,4 @@ export interface ConsoleUIOptions {
    * @defaultValue true
    */
   enabled: boolean;
-}
-
-/**
- * Configuration options for creating custom styles
- * Used with the makeStyle function to create specialized styling functions
- */
-export interface StyleOptions {
-  /**
-   * The background color to apply to the text.
-   */
-  backgroundColor?: BackgroundColor;
-
-  /**
-   * The color to apply to the text.
-   */
-  color?: Color;
-
-  /**
-   * Controls whether this specific style is enabled
-   * Overrides the global enabled setting for this style
-   *
-   * @defaultValue true
-   */
-  enabled?: boolean;
 }

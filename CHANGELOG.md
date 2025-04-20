@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/fvena/consoleUI/compare/v1.2.0...v1.3.0) (2025-04-20)
+
+
+### Features
+
+* add hex color support for text styling ([dec2864](https://github.com/fvena/consoleUI/commit/dec2864af86ff09c25c85fd37d192a5227a28aa4))
+
 # [1.2.0](https://github.com/fvena/consoleUI/compare/v1.1.0...v1.2.0) (2025-04-20)
 
 

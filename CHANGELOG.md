@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/fvena/consoleUI/compare/v1.3.0...v1.4.0) (2025-04-21)
+
+
+### Features
+
+* add box component ([48b4809](https://github.com/fvena/consoleUI/commit/48b48098ab65d9eb0883208979cb6278e77ba15d))
+
 # [1.3.0](https://github.com/fvena/consoleUI/compare/v1.2.0...v1.3.0) (2025-04-20)
 
 

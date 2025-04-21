@@ -19,6 +19,9 @@
  */
 
 import { createConsoleUI } from "../core/factory-console-ui";
+import { createBox } from "../components/box";
+import { stripAnsiStyles } from "../utils/strip-styles";
+import { isNode } from "../utils/enviroment";
 import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-terminal";
 
 /**
@@ -27,16 +30,21 @@ import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-termi
  *
  * @throws TypeError If used in a non-Node.js environment
  */
-if (typeof process === "undefined") {
+if (!isNode()) {
   throw new TypeError(
     'You are trying to use Terminal styles in a browser environment. For browser environment, use "@franvena/consoleui/browser" instead.',
   );
 }
 
 /**
+ * Creates components factory with environment-specific styling
+ */
+const { box: box_, makeBox: makeBox_ } = createBox(createStyle, stripAnsiStyles);
+
+/**
  * Creates the ConsoleUI instance configured for terminal environment
  */
-const consoleUI = createConsoleUI(createStyle, makeStyle_, hex_);
+const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, hex_, box_);
 const api = consoleUI();
 
 export default api;
@@ -81,6 +89,7 @@ export const {
   blue,
   blueBright,
   bold,
+  box,
   cyan,
   cyanBright,
   dim,
@@ -92,6 +101,7 @@ export const {
   italic,
   magenta,
   magentaBright,
+  makeBox,
   makeStyle,
   red,
   redBright,

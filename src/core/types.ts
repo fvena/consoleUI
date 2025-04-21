@@ -142,6 +142,14 @@ export interface StyleOptions {
  */
 export interface ConsoleUI extends Record<Style, StyleFunction> {
   /**
+   * Creates a box with specified options
+   * @param content - The content to place inside the box
+   * @param options - The options for the box
+   * @returns The styled box
+   */
+  box: (content: string, borderColor?: Color) => string;
+
+  /**
    * Creates a function that applies a hex color to text
    * @param color - The hex color code to apply
    * @param text - The text to style
@@ -154,6 +162,13 @@ export interface ConsoleUI extends Record<Style, StyleFunction> {
    * ```
    */
   hex: (color: string, isForeground?: boolean) => StyleFunction;
+
+  /**
+   * Creates a function that applies a box style to text
+   * @param options - The options for the box style
+   * @returns A function that applies the box style to text
+   */
+  makeBox: (options: BoxOptions) => StyleFunction;
 
   /**
    * Creates a custom style function with specified options
@@ -187,3 +202,33 @@ export interface ConsoleUIOptions {
    */
   enabled: boolean;
 }
+
+export type BorderStyle = "double" | "rounded" | "single";
+
+export type TextAlign = "center" | "left" | "right";
+
+export interface BoxOptions {
+  align?: TextAlign;
+  borderColor?: Color;
+  borderStyle?: BorderStyle;
+  horizontalPadding?: number;
+  verticalPadding?: number;
+  width?: number;
+}
+
+export interface BoxStyle {
+  bottomLeft: string;
+  bottomRight: string;
+  horizontal: string;
+  topLeft: string;
+  topRight: string;
+  vertical: string;
+}
+
+/**
+ * Function to strip style characters from text
+ * Each environment will implement this differently
+ * Terminal: strips ANSI escape codes
+ * Browser: strips CSS style markers
+ */
+export type StripStylesFunction = (text: string) => string;

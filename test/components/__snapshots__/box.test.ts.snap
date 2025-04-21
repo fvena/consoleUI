@@ -1,0 +1,91 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Box Component > box > should create a box with custom border color 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────╮
+│ Hello                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`Box Component > box > should create a box with custom options 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────╮
+│ Hello                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`Box Component > box > should create a box with default options 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────╮
+│ Hello                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`Box Component > box > should handle empty content 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────╮
+╰──────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`Box Component > box > should handle multi-line content 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────╮
+│ Line 1                                                                             │
+│ Line 2                                                                             │
+│ Line 3                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`Box Component > box > should wrap text at default width 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────╮
+│ This is a very long text that should be wrapped automatically at the default width of 80 characters because it exceeds that limit significantly                                                                             │
+╰──────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`Box Component > makeBox > should create a reusable box style 1`] = `
+"╭──────────────────────────────────────────────────────────────────────────────╮
+│Hello                                                                              │
+╰──────────────────────────────────────────────────────────────────────────────╯"
+`;
+
+exports[`Box Component > makeBox > should handle different content with same style > First content 1`] = `
+"┌──────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│ First                                                                             │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘"
+`;
+
+exports[`Box Component > makeBox > should handle different content with same style > Second content 1`] = `
+"┌──────────────────────────────────────────────────────────────────────────────┐
+│                                                                              │
+│ Second                                                                             │
+│                                                                              │
+└──────────────────────────────────────────────────────────────────────────────┘"
+`;
+
+exports[`Box Component > makeBox > should handle multi-line content with custom style 1`] = `
+"╔══════════════════════════════════════════════════════════════════════════════╗
+║                                                                              ║
+║                                                                              ║
+║  Line 1                                                                            ║
+║  Line 2                                                                            ║
+║  Line 3                                                                            ║
+║                                                                              ║
+║                                                                              ║
+╚══════════════════════════════════════════════════════════════════════════════╝"
+`;
+
+exports[`Box Component > makeBox > should handle multiple paragraphs with wrapping 1`] = `
+"╭────────────────────────────╮
+│ First paragraph that should wrap.                           │
+│ Second paragraph that should also wrap across multiple lines.                           │
+╰────────────────────────────╯"
+`;
+
+exports[`Box Component > makeBox > should handle very long words 1`] = `
+"╭──────────────────╮
+│ Normal ThisIsAVeryLongWordThatShouldBeSplitAcrossMultipleLines end                 │
+╰──────────────────╯"
+`;
+
+exports[`Box Component > makeBox > should respect custom width 1`] = `
+"╭──────────────────────────────────────╮
+│ This text should be wrapped at 40 characters width instead of the default 80                                     │
+╰──────────────────────────────────────╯"
+`;

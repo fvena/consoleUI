@@ -229,11 +229,6 @@ export function log(input: string): void {
  *
  * @param styles - Array of style names to combine
  * @returns A CSS string combining all the specified styles
- *
- * @remarks
- * - Later styles in the array take precedence over earlier ones
- * - Invalid or undefined styles are ignored
- * - Returns an empty string if no valid styles are provided
  */
 function combineStyles(styles: Style[]): string {
   if (styles.length === 0) return "";

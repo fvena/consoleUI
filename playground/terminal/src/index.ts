@@ -21,6 +21,7 @@ import {
   blue,
   blueBright,
   bold,
+  box,
   cyan,
   cyanBright,
   dim,
@@ -32,6 +33,7 @@ import {
   italic,
   magenta,
   magentaBright,
+  makeBox,
   makeStyle,
   red,
   redBright,
@@ -199,3 +201,74 @@ console.log(`${gray("{")}
     ${cyan('"name"')}: ${green('"Test"')}
   ${gray("}")}
 ${gray("}")}`);
+
+// 10. Box Component
+printSection("Box Component");
+console.log("Box component with default options:");
+console.log(box("Default box"));
+console.log(box("Box with border color", "green"));
+console.log(box(`Box with multiple lines\nSecond line\nThird line`));
+
+console.log("\nCreate your own reusable styles with makeBox:");
+const customBox = makeBox({
+  align: "center",
+  borderColor: "blue",
+  horizontalPadding: 4,
+  verticalPadding: 2,
+});
+console.log(customBox(bold(blueBright("Custom box"))));
+
+console.log("\nBox component with nested styles:");
+console.log(box(`${bgRed(black(bold("Bold content")))} inside a box`, "red"));
+
+console.log("\nBox component with multiple lines:");
+console.log(box(`Box with multiple lines\nSecond line\nThird line`));
+
+// Box Component Examples
+console.log("\n=== Box Component Examples ===\n");
+
+// Default box
+console.log("Default box:");
+console.log(box("Hello World"));
+
+// Custom border color
+console.log("\nBox with custom border color:");
+console.log(box("Important Message", "red"));
+
+// Box with custom width
+console.log("\nBox with custom width (40 characters):");
+console.log(
+  makeBox({ width: 40 })(
+    "This is a long message that will be automatically wrapped to fit within 40 characters",
+  ),
+);
+
+// Box with very narrow width
+console.log("\nBox with narrow width (20 characters):");
+console.log(
+  makeBox({ borderColor: "blue", width: 20 })(
+    "This text demonstrates how content is wrapped in a narrow box",
+  ),
+);
+
+// Box with multiple paragraphs
+console.log("\nBox with multiple paragraphs and custom width:");
+console.log(
+  makeBox({ borderColor: "green", width: 50 })(
+    "First paragraph with some long content that needs to be wrapped.\n\nSecond paragraph that also contains long content that will be automatically wrapped to maintain readability.",
+  ),
+);
+
+// Reusable styled box
+const warningBox = makeBox({
+  borderColor: "yellow",
+  borderStyle: "double",
+  width: 60,
+});
+
+console.log("\nReusable warning box:");
+console.log(
+  warningBox(
+    "Warning: This is a long warning message that will be automatically wrapped to maintain a clean and consistent layout in your console output.",
+  ),
+);

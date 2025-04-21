@@ -24,7 +24,11 @@ export default defineConfig({
             CONSOLEUI_ENV: "terminal",
           },
           environment: "node",
-          include: ["test/core/**/*.test.ts", "test/terminal/**/*.test.ts"],
+          include: [
+            "test/core/**/*.test.ts",
+            "test/terminal/**/*.test.ts",
+            "test/components/**/*.test.ts",
+          ],
           name: "terminal",
         },
       },

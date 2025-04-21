@@ -1,4 +1,6 @@
 import type {
+  BoxOptions,
+  Color,
   ConsoleUI,
   ConsoleUIOptions,
   Style,
@@ -41,7 +43,9 @@ import { DEFAULT_OPTIONS } from "../core/constants";
 export function createConsoleUI(
   createStyle: (styleType: Style, enabled: boolean) => StyleFunction,
   makeStyle: (options: StyleOptions) => StyleFunction,
+  makeBox: (options: BoxOptions) => StyleFunction,
   hex: (color: string, isForeground?: boolean) => StyleFunction,
+  box: (content: string, borderColor?: Color) => string,
 ) {
   /**
    * Creates a ConsoleUI instance with the specified options
@@ -78,6 +82,7 @@ export function createConsoleUI(
       blue: createStyle("blue", options_.enabled),
       blueBright: createStyle("blueBright", options_.enabled),
       bold: createStyle("bold", options_.enabled),
+      box,
       cyan: createStyle("cyan", options_.enabled),
       cyanBright: createStyle("cyanBright", options_.enabled),
       dim: createStyle("dim", options_.enabled),
@@ -89,6 +94,7 @@ export function createConsoleUI(
       italic: createStyle("italic", options_.enabled),
       magenta: createStyle("magenta", options_.enabled),
       magentaBright: createStyle("magentaBright", options_.enabled),
+      makeBox,
       makeStyle,
       red: createStyle("red", options_.enabled),
       redBright: createStyle("redBright", options_.enabled),

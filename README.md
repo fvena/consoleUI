@@ -180,6 +180,110 @@ log(errorStyle("Error: Something went wrong!"));
 - `spinner`: Show loading indicators
 - `progress`: Display progress bars
 
+## Box Component
+
+The box component allows you to create visually appealing boxes around your content with customizable borders, colors, and layout options.
+
+### Basic Usage
+
+```typescript
+import { box, makeBox } from "@franvena/consoleui";
+
+// Simple box with default styling
+console.log(box("Hello World"));
+
+// Box with custom border color
+console.log(box("Important Message", "red"));
+
+// Box with custom styling
+const customBox = makeBox({
+  borderColor: "blue",
+  borderStyle: "rounded",
+  padding: 2,
+  width: 60,
+});
+
+console.log(customBox("Your content here"));
+```
+
+### Options
+
+The box component supports the following options:
+
+- `borderColor`: The color of the box border (default: 'gray')
+
+  - Supports all standard colors: 'black', 'red', 'green', 'yellow', 'blue', 'magenta', 'cyan', 'white', 'gray'
+
+- `borderStyle`: The style of the box border (default: 'rounded')
+
+  - 'single': ┌─┐
+  - 'double': ╔═╗
+  - 'rounded': ╭─╮
+
+- `horizontalPadding`: Internal padding between content and border (default: 1)
+- `verticalPadding`: Internal padding between content and border (default: 0)
+- `width`: Maximum width of the box in characters (default: 80)
+
+  - Content will be automatically wrapped to fit within this width
+  - Includes borders and padding in the calculation
+  - Useful for maintaining consistent layouts and handling long content
+
+- `align`: Alignment of the box content (default: 'left')
+  - 'left': Aligns content to the left
+  - 'center': Centers content within the box
+  - 'right': Aligns content to the right
+
+### Examples
+
+```typescript
+// Box with custom width
+console.log(
+  makeBox({ width: 40 })(
+    "This is a long message that will be automatically wrapped to fit within 40 characters",
+  ),
+);
+
+// Narrow box with colored border
+console.log(
+  makeBox({
+    borderColor: "blue",
+    width: 20,
+  })("Content in a narrow box"),
+);
+
+// Box with multiple paragraphs
+console.log(
+  makeBox({
+    borderColor: "green",
+    width: 50,
+  })("First paragraph with wrapped content.\n\nSecond paragraph that also wraps."),
+);
+
+// Reusable warning box
+const warningBox = makeBox({
+  borderColor: "yellow",
+  borderStyle: "rounded",
+  width: 60,
+});
+
+console.log(warningBox("Warning: Long message that will be wrapped..."));
+```
+
+### Notes
+
+- The box component automatically handles:
+
+  - Text wrapping to maintain the specified width
+  - Multi-line content with proper border alignment
+  - Very long words by splitting them across lines
+  - Proper spacing and padding
+  - Consistent appearance across terminal and browser environments
+
+- The actual width might be adjusted to:
+  - Accommodate minimum content width
+  - Respect console/terminal width limitations
+  - Account for borders and padding
+
 ## Contributing
 
 We love your input! Check out our [Contributing Guide](CONTRIBUTING.md) for ways to get started. Every contribution helps:

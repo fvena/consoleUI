@@ -53,6 +53,7 @@ export const CSS_FORMATS = {
   dim: "opacity: 0.5",
   hidden: "visibility: hidden",
   italic: "font-style: italic",
+  monospace: "font-family: 'Courier New', Courier, monospace",
   strikethrough: "text-decoration: line-through",
   underline: "text-decoration: underline",
 } as const;

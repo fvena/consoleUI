@@ -46,31 +46,34 @@ Create a lightweight, modular, and easy-to-use library for styling and enhancing
 
 #### 3.1.1 Modular Structure
 
-The library will be organized with a clear separation between environments:
+The library is organized with a clear separation between environments:
 
 ```
-consolaui/
+consoleUI/
 ├── src/
-│   ├── core/                 # Shared types and utilities
-│   ├── renderers/            # Platform-specific rendering strategies
-│   │   ├── terminal.ts       # Terminal/ANSI renderer
-│   │   └── browser.ts        # Browser/CSS renderer
-│   ├── components/           # Shared component logic
-│   │   ├── box.ts
-│   │   ├── table.ts
-│   │   └── ...
-│   ├── terminal/             # Terminal-specific exports
-│   │   └── index.ts
-│   └── browser/              # Browser-specific exports
-│       └── index.ts
+│   ├── core/                 # Core types and factory functions
+│   │   ├── types.ts         # Shared type definitions
+│   │   ├── constants.ts     # Shared constants
+│   │   └── factory-console-ui.ts  # Main factory function
+│   ├── utils/               # Shared utilities
+│   ├── terminal/            # Terminal-specific implementation
+│   └── browser/             # Browser-specific implementation
+├── test/                    # Test files matching src structure
+│   ├── core/
+│   ├── terminal/
+│   └── browser/
+├── playground/              # Development testing environments
+│   ├── terminal/           # Terminal playground
+│   └── browser/            # Browser playground
 └── package.json
 ```
 
 #### 3.1.2 Design Patterns
 
-- **Strategy Pattern / Dependency Injection**: Use renderers that implement the same interface but with environment-specific implementations.
-- **Factory Functions**: Provide factory functions (prefixed with `make`) for creating custom, reusable components.
-- **Pure Functions**: Prioritize pure functions over stateful objects for better testability and composition.
+- **Factory Pattern**: Core factory function creates environment-specific implementations
+- **Pure Functions**: Emphasis on pure functions for better testability and tree-shaking
+- **Zero Dependencies**: No runtime dependencies for optimal performance
+- **Tree-Shaking**: Modular design allows effective dead code elimination
 
 ### 3.2 API Design
 
@@ -78,7 +81,7 @@ consolaui/
 
 ```typescript
 // Direct usage
-import { red, bold, green } from "consolaui/terminal";
+import { red, bold, green } from "@franvena/consoleui/terminal";
 
 console.log(red("Error message"));
 console.log(bold("Important notice"));
@@ -88,7 +91,7 @@ console.log(bold("Important notice"));
 
 ```typescript
 // Direct usage
-import { box, table } from "consolaui/terminal";
+import { box, table } from "@franvena/consoleui/terminal";
 
 console.log(box("Content in a box", { borderColor: "blue" }));
 console.log(
@@ -103,7 +106,7 @@ console.log(
 
 ```typescript
 // Creating custom, reusable components
-import { makeStyle, makeBox } from "consolaui/terminal";
+import { makeStyle, makeBox } from "@franvena/consoleui/terminal";
 
 const errorStyle = makeStyle({ color: "red", bold: true });
 const warningBox = makeBox({ borderColor: "yellow", padding: 2 });
@@ -114,194 +117,380 @@ console.log(warningBox("Warning content"));
 
 ### 3.3 Technical Constraints
 
-- **Size**: Minimize bundle size for browser environments
-- **Dependencies**: Minimize external dependencies
-- **Compatibility**: Support Node.js 14+ and modern browsers
-- **TypeScript**: Utilize TypeScript for type safety and developer experience
+- **Size**: Maximum bundle size of 5KB for each environment (terminal/browser)
+- **Dependencies**: Zero runtime dependencies
+- **Node.js Compatibility**: Node.js 22.11.0 or higher
+- **Browser Compatibility**: Modern browsers with ES6+ support
+- **TypeScript**: Full TypeScript support with comprehensive type definitions
+- **Tree-Shaking**: Support for tree-shaking in modern bundlers
 
 ## 4. Implementation Approach
 
 ### 4.1 Shared vs. Environment-Specific Code
 
-ConsolaUI will use a dependency injection approach to minimize code duplication:
+ConsolaUI uses a factory-based approach to minimize code duplication:
 
-1. **Shared Component Logic**:
+1. **Core Factory Function**:
 
-   - Component structure calculation
-   - Layout algorithms
-   - Option processing
+   - Creates environment-specific implementations
+   - Manages shared configuration
+   - Handles feature detection
 
-2. **Environment-Specific Renderers**:
+2. **Environment-Specific Implementations**:
    - Terminal: ANSI escape code generation
-   - Browser: CSS style generation
+   - Browser: CSS-based styling
+   - Environment-specific optimizations
 
 ### 4.2 Implementation Example: Box Component
 
 ```typescript
-// core/types.ts
-export interface StyleRenderer {
-  red(text: string): string;
-  bold(text: string): string;
+// src/core/types.ts
+export interface ConsoleUI extends Record<Style, StyleFunction> {
+  hex: (color: string, isForeground?: boolean) => StyleFunction;
+  makeStyle: (options: StyleOptions) => StyleFunction;
   // More style methods...
 
-  applyBorderColor(text: string, color: string): string;
+  box: (content: string, borderColor?: Color) => string;
+  makeBox: (options: BoxOptions) => (content: string) => string;
 }
 
 export interface BoxOptions {
-  borderColor?: string;
+  borderColor?: Color;
   padding?: number;
-  title?: string;
 }
 
-// components/box.ts
-export function createBoxModule(renderer: StyleRenderer) {
-  function box(content: string, options: BoxOptions = {}) {
-    // Shared box calculation logic
+// src/core/constants.ts
+export const DEFAULT_BOX_OPTIONS: BoxOptions = {
+  borderColor: "gray",
+  padding: 1,
+};
+
+// src/core/factory-console-ui.ts
+export function createConsoleUI(
+  createStyle: (styleType: Style, enabled: boolean) => StyleFunction,
+  makeStyle: (options: StyleOptions) => StyleFunction,
+  makeBox: (options: BoxOptions) => StyleFunction,
+  hex: (color: string, isForeground?: boolean) => StyleFunction,
+  box: (content: string, borderColor?: Color) => StyleFunction,
+) {
+  return (options: Partial<ConsoleUIOptions> = {}): ConsoleUI => {
+    // Merge provided options with defaults
+    const options_ = { ...DEFAULT_OPTIONS, ...options };
+
+    // Create and return the complete API with all available styles
+    return {
+      // Base colors
+      bgBlack: createStyle("bgBlack", options_.enabled),
+      bgBlackBright: createStyle("bgBlackBright", options_.enabled),
+      // More style methods...
+
+      box,
+      makeBox,
+    };
+  };
+}
+
+// src/components/box.ts
+export function makeBox(options: BoxOptions): StyleFunction {
+  return (text: string) => {
+    // create box logic
     // ...
-
-    // Apply environment-specific styling via the injected renderer
-    if (options.borderColor) {
-      result = renderer.applyBorderColor(result, options.borderColor);
-    }
-
-    return result;
-  }
-
-  function makeBox(options: BoxOptions = {}) {
-    return (content: string) => box(content, options);
-  }
-
-  return { box, makeBox };
+  };
 }
 
-// terminal/index.ts
-import { TerminalRenderer } from "../renderers/terminal";
-import { createBoxModule } from "../components/box";
+export function box(content: string, borderColor?: Color): StyleFunction {
+  return (text: string) => {
+    return makeBox({ borderColor, content })(text);
+  };
+}
 
-const renderer = new TerminalRenderer();
-const boxModule = createBoxModule(renderer);
+// src/terminal/index.ts
+import { createConsoleUI } from "../core/factory-console-ui";
+import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-terminal";
+import { box as box_, makeBox as makeBox_ } from "../components/box";
 
-export const box = boxModule.box;
-export const makeBox = boxModule.makeBox;
+const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, hex_, box_);
+
+export const {
+  bgBlack,
+  bgBlackBright,
+  // More style methods..
+  makeBox,
+  box,
+} = api;
+
+// src/browser/index.ts
+import { createConsoleUI } from "../core/factory-console-ui";
+import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-browser";
+import { box as box_, makeBox as makeBox_ } from "../components/box";
+
+const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, hex_, box_);
+
+export const {
+  bgBlack,
+  bgBlackBright,
+  // More style methods..
+  makeBox,
+  box,
+} = api;
+
+// test/browser/box.test.ts
+import { describe, expect, it, vi } from "vitest";
+import { log } from "../../src/browser/style-browser";
+import { box, makeBox } from "../../src/components/box";
+import { CSS_COLORS, CSS_FORMATS } from "../../src/browser/constants.browser";
+
+describe("Box Component", () => {
+  describe("makeStyle", () => {
+    // ...
+  });
+
+  describe("box", () => {
+    // ...
+  });
+
+  describe("log", () => {
+    let consoleSpy: ReturnType<typeof vi.spyOn>;
+
+    beforeEach(() => {
+      consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {
+        // Do nothing
+      });
+    });
+
+    afterEach(() => {
+      consoleSpy.mockRestore();
+    });
+
+    describe("makeStyle", () => {
+      // ...
+    });
+
+    describe("box", () => {
+      // ...
+    });
+  });
+});
+
+// test/terminal/box.test.ts
+import { describe, expect, it, vi } from "vitest";
+import { box, makeBox } from "../../src/components/box";
+import { ANSI_COLORS, ANSI_FORMATS, STYLES } from "../../src/terminal/constants.terminal";
+import * as colorUtilities from "../../src/utils/color";
+
+vi.mock("../../src/utils/color", async () => {
+  const actual = await vi.importActual<typeof colorUtilities>("../../src/utils/color");
+  return {
+    ...actual,
+    detectColorSupport: vi.fn().mockReturnValue("256"),
+  };
+});
+
+describe("Box Component", () => {
+  describe("makeStyle", () => {
+    // ...
+  });
+
+  describe("box", () => {
+    // ...
+  });
+});
+
+// playground/terminal/src/index.ts
+import {
+  bgBlack,
+  bgBlackBright,
+  // More style methods..
+  makeBox,
+  box,
+} from "@franvena/consoleui/terminal";
+
+// ...
+
+// 10. Box Component
+printSection("Box Component");
+console.log("Box component with default options:");
+console.log(box("Default box"));
+console.log(box("Box with border color", "green"));
+console.log(box(`Box with multiple lines\nSecond line\nThird line`));
+
+console.log("\nCreate your own reusable styles with makeBox:");
+const customBox = makeBox({ borderColor: "blue", padding: 2 });
+console.log(customBox("Custom box"));
+
+console.log("\nBox component with nested styles:");
+console.log(box(`${bold("Bold content")} inside a box`));
+
+console.log("\nBox component with multiple lines:");
+console.log(box(`Box with multiple lines\nSecond line\nThird line`));
+
+// playground/browser/src/main.js
+import {
+  bgBlack,
+  bgBlackBright,
+  // More style methods..
+  makeBox,
+  box,
+} from "@franvena/consoleui/browser";
+
+// ...
+
+// 10. Box Component
+printSection("Box Component");
+log("Box component with default options:");
+log(box("Default box"));
+log(box("Box with border color", "green"));
+log(box(`Box with multiple lines\nSecond line\nThird line`));
+
+log("\nCreate your own reusable styles with makeBox:");
+const customBox = makeBox({ borderColor: "blue", padding: 2 });
+log(customBox("Custom box"));
+
+log("\nBox component with nested styles:");
+log(box(`${bold("Bold content")} inside a box`));
+
+log("\nBox component with multiple lines:");
+log(box(`Box with multiple lines\nSecond line\nThird line`));
+
+// README.md
+## Available Features
+
+### Make Box
+// Description and usage
+
+### Box
+// Description and usage
 ```
 
 ### 4.3 Color and Style Support
 
-The library will support:
+The library supports:
 
-- 16 basic colors (8 standard + 8 bright)
-- Custom colors using hexadecimal codes (e.g., #FF5733)
-- Basic formatting (bold, italic, underline, etc.)
+- Standard ANSI colors (16 colors)
+- 256 color mode
+- RGB/True color support
+- Hex color codes with automatic fallback
+- Basic text formatting (bold, italic, underline, etc.)
 - Background colors
-- Color detection based on terminal capabilities
+- Automatic capability detection
+- Graceful degradation in limited environments
 
 ## 5. Non-Functional Requirements
 
 ### 5.1 Performance
 
-- Minimal runtime overhead
-- Efficient string manipulation
-- Lazy evaluation where possible
+- Zero runtime dependencies
+- Tree-shakeable modules
+- Maximum bundle size of 10KB per environment
+- Efficient string manipulation algorithms
+- Minimal memory footprint
 
 ### 5.2 Usability
 
-- Clear, consistent API
+- Intuitive factory-based API
 - Comprehensive TypeScript definitions
-- Intuitive factory functions for customization
+- Environment-specific exports
+- Automatic capability detection
+- Graceful degradation
 
 ### 5.3 Documentation
 
-- Clear API documentation with examples
-- Separate documentation for terminal and browser usage
-- Visual examples of all components
+- Comprehensive API documentation
+- Environment-specific guides
+- Interactive examples
+- Clear installation and usage instructions
+- Detailed migration guides for major versions
 
-## 6. Comparison with Existing Solutions
+## 6. Project Status and Features
 
-ConsolaUI aims to improve upon existing solutions like the analyzed "Consola" library by:
+### 6.1 Completed Features
 
-1. **Clearer separation of concerns**: Explicit terminal vs. browser imports
-2. **More focused functionality**: Better at doing fewer things exceptionally well
-3. **Lighter footprint**: Minimal dependencies and bundle size
-4. **Consistent API**: Same patterns across all components
-5. **Better TypeScript integration**: Comprehensive type definitions
+#### Core Infrastructure
 
-## 7. Project Phases and Feature-based Development
+- ✅ Project setup with TypeScript
+- ✅ Zero-dependency architecture
+- ✅ Environment-specific builds
+- ✅ Comprehensive test suite
+- ✅ CI/CD pipeline with semantic release
+- ✅ Bundle size monitoring
+- ✅ Development playgrounds
 
-### 7.1 Definition of Done (DoD) for Each Feature
+#### Terminal Features
 
-For each individual feature developed, the following criteria must be met before considering it complete:
+- ✅ Basic color support (16 colors)
+- ✅ 256 color mode
+- ✅ RGB/True color support
+- ✅ Text formatting (bold, italic, etc.)
+- ✅ Background colors
+- ✅ Automatic capability detection
 
-1. **Functionality complete**: Code implements all required functionality
-2. **Tests written and passing**: Unit tests, integration tests where applicable
-3. **Playground verification**: Feature tested in both terminal and browser playgrounds
-4. **Documentation updated**: API documentation and examples for the feature
-5. **PR review passed**: Code review completed with all feedback addressed
-6. **Version tagged**: Feature included in a versioned release (following semantic versioning)
-7. **Release notes updated**: Changes documented in release notes
-8. **Performance verified**: Feature meets performance requirements
-9. **API consistency checked**: Feature follows established API patterns
+#### Browser Features
 
-This feature-based approach ensures rapid, continuous delivery of value after each feature is completed.
+- ✅ CSS-based styling
+- ✅ Color support
+- ✅ Text formatting
+- ✅ Background colors
+- ✅ Console group support
 
-### 7.2 Phase 0: Project Foundation
+### 6.2 Upcoming Features
 
-- Set up project infrastructure (TypeScript, build tools, linting) [DoD, Release v0.1.0]
-- Create terminal playground [DoD, Release v0.1.1]
-- Create browser console playground [DoD, Release v0.1.2]
-- Establish testing framework and methodologies [DoD, Release v0.1.3]
-- Configure CI/CD pipeline [DoD, Release v0.1.4]
-- Set up documentation infrastructure [DoD, Release v0.1.5]
+#### Phase 1: Enhanced Components
 
-### 7.3 Phase 1: Core Styling Features
+- ✅ Box component with borders and padding
+- Table component with formatting options
+- Tree view for hierarchical data
+- Progress indicators and spinners
 
-Each feature follows the DoD process and results in a new release:
+#### Phase 2: Advanced Features
 
-- Basic color functions (red, green, blue, etc.) [DoD, Release v0.2.0]
-- Text formatting (bold, italic, underline) [DoD, Release v0.2.1]
-- Style composition and nesting [DoD, Release v0.2.2]
-- Hexadecimal color support [DoD, Release v0.2.3]
-- Terminal renderer complete [DoD, Release v0.2.4]
-- Browser renderer complete [DoD, Release v0.2.5]
-- Background colors [DoD, Release v0.2.6]
-- Factory functions for custom styles [DoD, Release v0.2.7]
+- Custom color palettes
+- Theme support
+- Layout system
+- Interactive components
 
-### 7.4 Phase 2: Basic Component Features
+#### Phase 3: Developer Experience
 
-Each feature follows the DoD process and results in a new release:
+- Interactive documentation
+- Visual playground
+- Component gallery
+- Performance profiling tools
 
-- Simple box component [DoD, Release v0.3.0]
-- Box with customizable borders [DoD, Release v0.3.1]
-- Box with title support [DoD, Release v0.3.2]
-- Simple table component [DoD, Release v0.3.3]
-- Table with styling options [DoD, Release v0.3.4]
-- Table with header/footer support [DoD, Release v0.3.5]
-- Horizontal separator component [DoD, Release v0.3.6]
-- Header component [DoD, Release v0.3.7]
+## 7. Quality Assurance
 
-### 7.5 Phase 3: Advanced Component Features
+### 7.1 Testing Strategy
 
-Each feature follows the DoD process and results in a new release:
+- Unit tests for all components
+- Integration tests for environment-specific features
+- Visual regression tests for components
+- Performance benchmarks
+- Cross-environment compatibility tests
 
-- Simple tree-view component [DoD, Release v0.4.0]
-- Advanced tree-view with custom styling [DoD, Release v0.4.1]
-- Basic spinner component [DoD, Release v0.4.2]
-- Multiple spinner styles [DoD, Release v0.4.3]
-- Progress bar component [DoD, Release v0.4.4]
-- Banner component [DoD, Release v0.4.5]
-- Notification components (success, error, warning, info) [DoD, Release v0.4.6]
-- Production-ready v1.0.0 release [DoD, Release v1.0.0]
+### 7.2 Code Quality
 
-This granular, feature-by-feature approach ensures that:
+- ESLint for code quality
+- Prettier for code formatting
+- Husky for git hooks
+- Conventional commits
+- Semantic versioning
+- Automated changelog generation
 
-1. Value is delivered continuously with each small feature completion
-2. Users can adopt and provide feedback on individual features early
-3. The team can pivot or reprioritize quickly based on user feedback
-4. Quality remains consistent across all features
-5. Documentation stays current with implemented functionality
-6. Performance and API consistency are verified throughout development
+### 7.3 Performance Monitoring
+
+- Bundle size limits (10KB per environment)
+- Performance benchmarks in CI
+- Memory usage monitoring
+- Tree-shaking verification
 
 ## 8. Conclusion
 
-ConsolaUI will provide a focused, high-quality library for terminal styling and visual components. By prioritizing performance, developer experience, and cross-environment compatibility, it aims to become the go-to solution for developers looking to enhance their command-line interfaces.
+ConsolaUI has evolved into a focused, high-performance library for terminal and browser console styling. The project has successfully achieved its core goals of:
 
-The explicit separation between terminal and browser environments, combined with shared component logic through dependency injection, will ensure code reuse while maintaining optimal implementations for each platform.
+1. **Zero Dependencies**: Maintaining zero runtime dependencies while providing rich functionality
+2. **Performance**: Keeping bundle size under 10KB per environment with efficient implementations
+3. **Cross-Environment**: Providing consistent APIs across terminal and browser environments
+4. **Developer Experience**: Delivering comprehensive TypeScript support and intuitive APIs
+5. **Maintainability**: Establishing a robust development workflow with automated quality checks
+
+The factory-based architecture has proven successful in maintaining clean separation between environments while maximizing code reuse. The project's commitment to zero dependencies and small bundle size has resulted in a lightweight yet powerful library that meets modern development needs.
+
+Moving forward, the focus will be on expanding the component ecosystem while maintaining the project's core principles of performance, simplicity, and developer experience.

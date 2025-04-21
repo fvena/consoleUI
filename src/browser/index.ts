@@ -31,6 +31,9 @@
  */
 
 import { createConsoleUI } from "../core/factory-console-ui";
+import { createBox } from "../components/box";
+import { stripCssStyles } from "../utils/strip-styles";
+import { isBrowser } from "../utils/enviroment";
 import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-browser";
 
 /**
@@ -39,17 +42,22 @@ import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-brows
  *
  * @throws TypeError When used outside a browser environment
  */
-// eslint-disable-next-line @typescript-eslint/no-unnecessary-condition -- Check in time of execution
-if (!(globalThis.window && globalThis.document)) {
+
+if (!isBrowser()) {
   throw new TypeError(
     'You are trying to use Browser styles in a Node.js environment. For Node.js environment, use "@franvena/consoleui/terminal" instead.',
   );
 }
 
 /**
+ * Creates components factory with environment-specific styling
+ */
+const { box: box_, makeBox: makeBox_ } = createBox(createStyle, stripCssStyles);
+
+/**
  * Creates the ConsoleUI instance configured for browser environment
  */
-const consoleUI = createConsoleUI(createStyle, makeStyle_, hex_);
+const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, hex_, box_);
 const api = consoleUI();
 
 export default api;
@@ -95,6 +103,7 @@ export const {
   blue,
   blueBright,
   bold,
+  box,
   cyan,
   cyanBright,
   dim,
@@ -106,6 +115,7 @@ export const {
   italic,
   magenta,
   magentaBright,
+  makeBox,
   makeStyle,
   red,
   redBright,

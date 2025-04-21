@@ -8,6 +8,11 @@ on:
     branches:
       - main
 
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
 concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
@@ -53,13 +58,58 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
 
-      - uses: actions/download-artifact@v4
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
         with:
           name: dist
           path: dist/
       - run: npm ci --ignore-scripts
       - run: npm run lint
       - run: npm run typecheck
+
+  sizeBadges:
+    name: Size Badges
+    needs: build
+    runs-on: ubuntu-22.04
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "lts/*"
+      - uses: actions/cache@v3
+        with:
+          path: ~/.npm
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+
+      - name: Download build artifacts
+        uses: actions/download-artifact@v4
+        with:
+          name: dist
+          path: dist/
+
+      - name: Install dependencies
+        run: npm ci --ignore-scripts
+
+      - name: Run size-limit and generate badges
+        run: |
+          npx size-limit --json > size-limit-output.json
+          mkdir -p public/badges
+          node .github/scripts/generate-size-badge.js
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload badge artifacts
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: "public"
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
 
   test:
     name: Test

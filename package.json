@@ -55,19 +55,13 @@
   ],
   "size-limit": [
     {
+      "name": "browser",
       "path": "dist/browser/index.js",
       "limit": "10 kB"
     },
     {
-      "path": "dist/browser/index.cjs",
-      "limit": "10 kB"
-    },
-    {
+      "name": "terminal",
       "path": "dist/terminal/index.js",
-      "limit": "10 kB"
-    },
-    {
-      "path": "dist/terminal/index.cjs",
       "limit": "10 kB"
     }
   ],

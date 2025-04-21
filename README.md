@@ -11,11 +11,10 @@ Create beautiful styled outputs with zero performance impact. ConsoleUI provides
 </p>
 
 <p align="center">
-  <a href="https://github.com/fvena/consoleUI/actions"><img src="https://github.com/fvena/consoleUI/workflows/CI%2FCD/badge.svg" alt="Build Status"></a>
   <a href="https://www.npmjs.com/package/@franvena/consoleui"><img src="https://img.shields.io/npm/v/@franvena/consoleui.svg" alt="Version"></a>
-  <a href="https://www.npmjs.com/package/@franvena/consoleui"><img src="https://img.shields.io/npm/dm/@franvena/consoleui.svg" alt="Downloads"></a>
-  <a href="https://github.com/fvena/consoleUI/blob/main/LICENSE"><img src="https://img.shields.io/npm/l/consolaui.svg" alt="License"></a>
-  <a href="https://github.com/fvena/consoleUI"><img src="https://img.shields.io/badge/PRs-welcome-brightgreen.svg" alt="PRs Welcome"></a>
+  <a href="https://www.npmjs.com/package/@franvena/consoleui"><img src="https://img.shields.io/npm/dm/@franvena/consoleui.svg?color=blue" alt="Downloads"></a>
+  <img src="https://img.shields.io/endpoint?url=https://fvena.github.io/consoleUI/badges/browser-badge.json" alt="Browser Size">
+  <img src="https://img.shields.io/endpoint?url=https://fvena.github.io/consoleUI/badges/terminal-badge.json" alt="Terminal Size">
 </p>
 
 ## Why ConsoleUI?

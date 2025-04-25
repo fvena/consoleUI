@@ -32,6 +32,7 @@
 
 import { createConsoleUI } from "./modules/core";
 import { createBox } from "./modules/box";
+import { createTree } from "./modules/tree";
 import { stripCssStyles } from "./utils/strip-styles";
 import { isBrowser } from "./utils/enviroment";
 import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./modules/style/browser";
@@ -53,10 +54,12 @@ if (!isBrowser()) {
  * Creates components factory with environment-specific styling
  */
 const { box: box_, makeBox: makeBox_ } = createBox(createStyle, stripCssStyles);
+const { makeTree: makeTree_, tree: tree_ } = createTree(createStyle);
+
 /**
  * Creates the ConsoleUI instance configured for browser environment
  */
-const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, hex_, box_);
+const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, makeTree_, hex_, box_, tree_);
 const api = consoleUI();
 
 export default api;
@@ -116,9 +119,11 @@ export const {
   magentaBright,
   makeBox,
   makeStyle,
+  makeTree,
   red,
   redBright,
   strikethrough,
+  tree,
   underline,
   white,
   whiteBright,

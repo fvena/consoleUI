@@ -20,6 +20,7 @@
 
 import { createConsoleUI } from "./modules/core";
 import { createBox } from "./modules/box";
+import { createTree } from "./modules/tree";
 import { stripAnsiStyles } from "./utils/strip-styles";
 import { isNode } from "./utils/enviroment";
 import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./modules/style/terminal";
@@ -40,11 +41,12 @@ if (!isNode()) {
  * Creates components factory with environment-specific styling
  */
 const { box: box_, makeBox: makeBox_ } = createBox(createStyle, stripAnsiStyles);
+const { makeTree: makeTree_, tree: tree_ } = createTree(createStyle);
 
 /**
  * Creates the ConsoleUI instance configured for terminal environment
  */
-const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, hex_, box_);
+const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, makeTree_, hex_, box_, tree_);
 const api = consoleUI();
 
 export default api;
@@ -103,9 +105,11 @@ export const {
   magentaBright,
   makeBox,
   makeStyle,
+  makeTree,
   red,
   redBright,
   strikethrough,
+  tree,
   underline,
   white,
   whiteBright,

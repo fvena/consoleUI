@@ -1,5 +1,6 @@
 import type { ConsoleUI, ConsoleUIOptions } from "./types";
 import type { Color, Style, StyleFunction, StyleOptions } from "../style/type";
+import type { TreeFunction, TreeNode, TreeOptions } from "../tree/types";
 import type { BoxOptions } from "../box/types";
 import { DEFAULT_OPTIONS } from "./constants";
 
@@ -38,8 +39,10 @@ export function createConsoleUI(
   createStyle: (styleType: Style, enabled: boolean) => StyleFunction,
   makeStyle: (options: StyleOptions) => StyleFunction,
   makeBox: (options: BoxOptions) => StyleFunction,
+  makeTree: (options: TreeOptions) => TreeFunction,
   hex: (color: string, isForeground?: boolean) => StyleFunction,
   box: (content: string, borderColor?: Color) => string,
+  tree: (nodes: TreeNode[]) => string,
 ) {
   /**
    * Creates a ConsoleUI instance with the specified options
@@ -90,10 +93,12 @@ export function createConsoleUI(
       magentaBright: createStyle("magentaBright", options_.enabled),
       makeBox,
       makeStyle,
+      makeTree,
       red: createStyle("red", options_.enabled),
       redBright: createStyle("redBright", options_.enabled),
       reset: createStyle("reset", options_.enabled),
       strikethrough: createStyle("strikethrough", options_.enabled),
+      tree,
       underline: createStyle("underline", options_.enabled),
       white: createStyle("white", options_.enabled),
       whiteBright: createStyle("whiteBright", options_.enabled),

@@ -9,6 +9,8 @@ describe("createConsoleUI", () => {
   const mockHex = vi.fn().mockReturnValue((txt: string) => `hex-${txt}`);
   const mockMakeBox = vi.fn().mockReturnValue((txt: string) => `box-${txt}`);
   const mockBox = vi.fn().mockReturnValue((txt: string) => `box-${txt}`);
+  const mockMakeTree = vi.fn().mockReturnValue((txt: string) => `tree-${txt}`);
+  const mockTree = vi.fn().mockReturnValue((txt: string) => `tree-${txt}`);
 
   it("should return an object with all style methods", () => {
     const api = createConsoleUI(
@@ -17,6 +19,8 @@ describe("createConsoleUI", () => {
       mockHex,
       mockMakeBox,
       mockBox,
+      mockMakeTree,
+      mockTree,
     )({
       enabled: true,
     });

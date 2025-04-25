@@ -56,12 +56,12 @@
   "size-limit": [
     {
       "name": "browser",
-      "path": "dist/browser/index.js",
+      "path": "dist/browser/browser.js",
       "limit": "10 kB"
     },
     {
       "name": "terminal",
-      "path": "dist/terminal/index.js",
+      "path": "dist/terminal/terminal.js",
       "limit": "10 kB"
     }
   ],

@@ -187,7 +187,7 @@ The box component allows you to create visually appealing boxes around your cont
 ### Basic Usage
 
 ```typescript
-import { box, makeBox } from "@franvena/consoleui";
+import { box, makeBox } from "@franvena/consoleui/terminal";
 
 // Simple box with default styling
 console.log(box("Hello World"));
@@ -283,6 +283,62 @@ console.log(warningBox("Warning: Long message that will be wrapped..."));
   - Accommodate minimum content width
   - Respect console/terminal width limitations
   - Account for borders and padding
+
+## Tree Component
+
+The Tree component allows you to display hierarchical data structures with customizable rendering, icons, and interactive features.
+
+### Basic Usage
+
+```typescript
+import { tree, makeTree } from "@franvena/consoleui/terminal";
+import type { TreeNode } from "@franvena/consoleui/terminal";
+
+// Create a simple tree structure
+const nodes: TreeNode[] = [
+  {
+    id: "1",
+    label: "Root",
+    expanded: true,
+    children: [
+      {
+        id: "2",
+        label: "Child 1",
+      },
+      {
+        id: "3",
+        label: "Child 2",
+        expanded: false,
+        children: [
+          {
+            id: "4",
+            label: "Grandchild",
+          },
+        ],
+      },
+    ],
+  },
+];
+
+// Render the tree
+console.log(tree(nodes));
+```
+
+### Node Interface
+
+Each node in the tree supports the following properties:
+
+- `id`: Unique identifier for the node (required)
+- `label`: Display text for the node (required)
+- `children`: Optional array of child nodes
+- `icon`: Optional icon to display before the label
+- `expanded`: Optional boolean to control node expansion state
+
+### Component Options
+
+The Tree component accepts the following options:
+
+- `indentSize`: Number of spaces for each indentation level (default: 2)
 
 ## Contributing
 

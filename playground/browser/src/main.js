@@ -36,9 +36,11 @@ import {
   magentaBright,
   makeBox,
   makeStyle,
+  makeTree,
   red,
   redBright,
   strikethrough,
+  tree,
   underline,
   white,
   whiteBright,
@@ -297,3 +299,98 @@ log(
     "Warning: This is a long warning message that will be automatically wrapped to maintain a clean and consistent layout in your console output.",
   ),
 );
+
+// 11. Tree Component
+printSection("Tree Component");
+
+// Example file system tree
+const fileSystemTree = {
+  children: [
+    {
+      children: [
+        {
+          children: [{ label: "tree.ts" }, { label: "box.ts" }, { label: "spinner.ts" }],
+          label: "components",
+        },
+        {
+          children: [
+            { label: "enviroment.ts" },
+            { label: "strip-styles.ts" },
+            { label: "wrap-text.ts" },
+          ],
+          label: "utils",
+        },
+        { label: "index.ts" },
+      ],
+      label: "src",
+    },
+    {
+      label: "package.json",
+    },
+    {
+      label: "tsconfig.json",
+    },
+  ],
+  label: bgRed(black(bold("project"))),
+};
+
+const menuTree = [
+  {
+    children: [{ label: "New" }, { label: "Open" }, { label: "Save" }, { label: "Exit" }],
+    label: "File",
+  },
+  {
+    children: [
+      { label: "Undo" },
+      { label: "Redo" },
+      { label: "Cut" },
+      { label: "Copy" },
+      { label: "Paste" },
+    ],
+    label: "Edit",
+  },
+  {
+    children: [{ label: "Documentation" }, { label: "About" }],
+    label: "Help",
+  },
+];
+
+const customIconsTree = {
+  children: [
+    {
+      children: [
+        { icon: "⚛️ ", label: "React App" },
+        { icon: "🟢", label: "Vue App" },
+        { icon: "🔴", label: "Angular App" },
+      ],
+      icon: "🌐",
+      label: "Frontend",
+    },
+    {
+      children: [
+        { icon: "📡", label: "Node API" },
+        { icon: "💾", label: "Database" },
+      ],
+      icon: "🖥️ ",
+      label: "Backend",
+    },
+    { icon: "📚", label: "Documentation" },
+  ],
+  icon: "🚀",
+  label: "Projects",
+};
+
+// Reusable tree style
+const customTree = makeTree({
+  color: "red",
+  showIcons: false,
+});
+
+log("\nFile System Tree:\n");
+log(customTree(fileSystemTree));
+
+log("\nMenu Tree:\n");
+log(tree(menuTree));
+
+log("\nCustom Icons Tree:\n");
+log(tree(customIconsTree));

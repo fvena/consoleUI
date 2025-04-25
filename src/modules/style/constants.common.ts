@@ -1,4 +1,4 @@
-import type { StyleOptions } from "./type";
+import type { StyleOptions } from "./types";
 
 /**
  * Default options for individual style functions

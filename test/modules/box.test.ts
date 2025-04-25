@@ -1,4 +1,4 @@
-import type { Color } from "../../src/modules/style/type";
+import type { Color } from "../../src/modules/style/types";
 import { describe, expect, it } from "vitest";
 import { createBox } from "../../src/modules/box";
 

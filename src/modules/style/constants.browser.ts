@@ -1,4 +1,4 @@
-import type { Colors, Styles } from "./type";
+import type { Colors, Styles } from "./types";
 
 export const BACKGROUND_STYLE = "padding: 2px 4px; border-radius: 2px";
 

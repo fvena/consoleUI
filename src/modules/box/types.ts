@@ -1,4 +1,4 @@
-import type { Color } from "../style/type";
+import type { Color } from "../style/types";
 
 export type BorderStyle = "double" | "rounded" | "single";
 

@@ -1,4 +1,4 @@
-import type { Colors, Styles } from "./type";
+import type { Colors, Styles } from "./types";
 
 /**
  * ANSI color codes for terminal text styling

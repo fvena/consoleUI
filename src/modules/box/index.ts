@@ -1,4 +1,4 @@
-import type { Color, StyleFunction } from "../style/type";
+import type { Color, StyleFunction } from "../style/types";
 import type { StripStylesFunction } from "../../utils/strip-styles";
 import type { BoxOptions } from "./types";
 import { isBrowser } from "../../utils/enviroment";

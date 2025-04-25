@@ -18,6 +18,9 @@
  * @throws TypeError If used in a non-Node.js environment
  */
 
+// Export all types
+export * from "./types";
+
 import { createConsoleUI } from "./modules/core";
 import { createBox } from "./modules/box";
 import { createTree } from "./modules/tree";

@@ -1,4 +1,4 @@
-import type { Color } from "../../src/modules/style/type";
+import type { Color } from "../../src/modules/style/types";
 import type { TreeNode } from "../../src/modules/tree/types";
 import { describe, expect, it } from "vitest";
 import { createTree } from "../../src/modules/tree";

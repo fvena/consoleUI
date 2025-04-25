@@ -1,4 +1,4 @@
-import type { Color, StyleFunction } from "../style/type";
+import type { Color, StyleFunction } from "../style/types";
 import type { TreeNode, TreeOptions } from "./types";
 import { isBrowser } from "../../utils/enviroment";
 import { DEFAULT_OPTIONS, DEFAULT_SYMBOLS } from "./constants";

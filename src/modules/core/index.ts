@@ -1,5 +1,5 @@
 import type { ConsoleUI, ConsoleUIOptions } from "./types";
-import type { Color, Style, StyleFunction, StyleOptions } from "../style/type";
+import type { Color, Style, StyleFunction, StyleOptions } from "../style/types";
 import type { TreeFunction, TreeNode, TreeOptions } from "../tree/types";
 import type { BoxOptions } from "../box/types";
 import { DEFAULT_OPTIONS } from "./constants";

@@ -1,4 +1,4 @@
-import type { Style, StyleFunction, StyleOptions } from "./type";
+import type { Style, StyleFunction, StyleOptions } from "./types";
 import { isColor } from "../../utils/guards";
 import {
   detectColorSupport,

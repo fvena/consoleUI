@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/fvena/consoleUI/compare/v1.4.0...v1.5.0) (2025-04-25)
+
+
+### Features
+
+* add tree component ([ac5f913](https://github.com/fvena/consoleUI/commit/ac5f9137574234d1b56545b8f3e6abe3e133d396))
+
 # [1.4.0](https://github.com/fvena/consoleUI/compare/v1.3.0...v1.4.0) (2025-04-21)
 
 

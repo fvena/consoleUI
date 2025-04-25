@@ -1,6 +1,6 @@
 import { describe, expect, it, vi } from "vitest";
-import { createStyle, hex, makeStyle } from "../../src/terminal/style-terminal";
-import { ANSI_COLORS, ANSI_FORMATS, STYLES } from "../../src/terminal/constants.terminal";
+import { createStyle, hex, makeStyle } from "../../src/modules/style/terminal";
+import { ANSI_COLORS, ANSI_FORMATS, STYLES } from "../../src/modules/style/constants.terminal";
 import * as colorUtilities from "../../src/utils/color";
 
 vi.mock("../../src/utils/color", async () => {

@@ -1,4 +1,4 @@
-import type { Color, Colors } from "../core/types";
+import type { Color, Colors } from "../modules/style/type";
 
 /**
  * Type guard that checks if a value is a valid color in the provided color map

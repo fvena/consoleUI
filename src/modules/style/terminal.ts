@@ -1,13 +1,13 @@
-import type { Style, StyleFunction, StyleOptions } from "../core/types";
-import { isColor } from "../utils/guards";
-import { DEFAULT_STYLE_OPTIONS } from "../core/constants";
+import type { Style, StyleFunction, StyleOptions } from "./type";
+import { isColor } from "../../utils/guards";
 import {
   detectColorSupport,
   hexToRgb,
   rgbToAnsi256,
   rgbToAnsiBasic,
   validateHex,
-} from "../utils/color";
+} from "../../utils/color";
+import { DEFAULT_STYLE_OPTIONS } from "./constants.common";
 import { ANSI_COLORS, STYLES } from "./constants.terminal";
 
 /**
@@ -48,7 +48,7 @@ export function createStyle(style: Style, enabled = true): StyleFunction {
     // Style validation
     if (!isColor(style, STYLES)) {
       throw new Error(
-        `The style ${style} passed does not match any of the supported styles. Ensure it is one of the following supported values: ${Object.keys(STYLES).join(", ")}`,
+        `The style "${String(style)}" passed does not match any of the supported styles. Ensure it is one of the following supported values: ${Object.keys(STYLES).join(", ")}`,
       );
     }
 

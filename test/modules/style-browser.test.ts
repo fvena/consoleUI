@@ -1,6 +1,6 @@
 import { afterEach, beforeEach, describe, expect, it, vi } from "vitest";
-import { createStyle, hex, log, makeStyle } from "../../src/browser/style-browser";
-import { CSS_COLORS, CSS_FORMATS } from "../../src/browser/constants.browser";
+import { createStyle, hex, log, makeStyle } from "../../src/modules/style/browser";
+import { CSS_COLORS, CSS_FORMATS } from "../../src/modules/style/constants.browser";
 
 describe("Style Browser", () => {
   describe("createStyle", () => {

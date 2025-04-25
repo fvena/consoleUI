@@ -1,6 +1,6 @@
-import type { Color } from "../../src/core/types";
+import type { Color } from "../../src/modules/style/type";
 import { describe, expect, it } from "vitest";
-import { createBox } from "../../src/components/box";
+import { createBox } from "../../src/modules/box";
 
 /**
  * Creates a mock style function for testing that ignores color and returns text unchanged

@@ -1,48 +1,9 @@
-import type {
-  BorderStyle,
-  BoxOptions,
-  BoxStyle,
-  Color,
-  StripStylesFunction,
-  StyleFunction,
-} from "../core/types";
-import { isBrowser } from "../utils/enviroment";
-import { wrapText } from "../utils/wrap-text";
-const BORDER_STYLES: Record<BorderStyle, BoxStyle> = {
-  double: {
-    bottomLeft: "╚",
-    bottomRight: "╝",
-    horizontal: "═",
-    topLeft: "╔",
-    topRight: "╗",
-    vertical: "║",
-  },
-  rounded: {
-    bottomLeft: "╰",
-    bottomRight: "╯",
-    horizontal: "─",
-    topLeft: "╭",
-    topRight: "╮",
-    vertical: "│",
-  },
-  single: {
-    bottomLeft: "└",
-    bottomRight: "┘",
-    horizontal: "─",
-    topLeft: "┌",
-    topRight: "┐",
-    vertical: "│",
-  },
-};
-
-const DEFAULT_OPTIONS: Required<BoxOptions> = {
-  align: "left",
-  borderColor: "gray",
-  borderStyle: "rounded",
-  horizontalPadding: 1,
-  verticalPadding: 0,
-  width: 80,
-};
+import type { Color, StyleFunction } from "../style/type";
+import type { StripStylesFunction } from "../../utils/strip-styles";
+import type { BoxOptions } from "./types";
+import { isBrowser } from "../../utils/enviroment";
+import { wrapText } from "../../utils/wrap-text";
+import { BORDER_STYLES, DEFAULT_OPTIONS } from "./constants";
 
 /**
  * Creates the box component factory with environment-specific styling
@@ -129,7 +90,9 @@ export function createBox(
 
       const allLines = [top, ...verticalPadding, ...paddedLines, ...verticalPadding, bottom];
 
-      // Wrap the entire box with monospace font style
+      // Wrap the node symbol with monospace font style in browser environments,
+      // because the font style is not monospace by default in the terminal,
+      // and the tree is not aligned properly.
       if (isBrowser()) {
         const monospaceStart = "__STYLE_MONOSPACE__";
         const monospaceEnd = "__STYLE_RESET__";

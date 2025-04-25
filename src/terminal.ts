@@ -18,11 +18,11 @@
  * @throws TypeError If used in a non-Node.js environment
  */
 
-import { createConsoleUI } from "../core/factory-console-ui";
-import { createBox } from "../components/box";
-import { stripAnsiStyles } from "../utils/strip-styles";
-import { isNode } from "../utils/enviroment";
-import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-terminal";
+import { createConsoleUI } from "./modules/core";
+import { createBox } from "./modules/box";
+import { stripAnsiStyles } from "./utils/strip-styles";
+import { isNode } from "./utils/enviroment";
+import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./modules/style/terminal";
 
 /**
  * Runtime environment verification.

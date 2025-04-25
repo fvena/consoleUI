@@ -1,4 +1,10 @@
-import type { StripStylesFunction } from "../core/types";
+/**
+ * Function to strip style characters from text
+ * Each environment will implement this differently
+ * Terminal: strips ANSI escape codes
+ * Browser: strips CSS style markers
+ */
+export type StripStylesFunction = (text: string) => string;
 
 /**
  * Strips ANSI escape codes from terminal text

@@ -1,8 +1,8 @@
-import type { Style, StyleFunction, StyleOptions } from "../core/types";
-import { isColor } from "../utils/guards";
-import { DEFAULT_STYLE_OPTIONS } from "../core/constants";
-import { camelToUpperSnake, upperSnakeToCamel } from "../utils/case-transform";
-import { validateHex } from "../utils/color";
+import type { Style, StyleFunction, StyleOptions } from "./type";
+import { isColor } from "../../utils/guards";
+import { camelToUpperSnake, upperSnakeToCamel } from "../../utils/case-transform";
+import { validateHex } from "../../utils/color";
+import { DEFAULT_STYLE_OPTIONS } from "./constants.common";
 import { BACKGROUND_STYLE, CSS_COLORS, STYLES } from "./constants.browser";
 
 /**
@@ -42,7 +42,7 @@ export function createStyle(style: Style, enabled = true): StyleFunction {
     // Style validation
     if (!isColor(style, STYLES)) {
       throw new Error(
-        `The style ${style} passed does not match any of the supported styles. Ensure it is one of the following supported values: ${Object.keys(STYLES).join(", ")}`,
+        `The style "${String(style)}" passed does not match any of the supported styles. Ensure it is one of the following supported values: ${Object.keys(STYLES).join(", ")}`,
       );
     }
 

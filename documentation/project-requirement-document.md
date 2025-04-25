@@ -28,11 +28,12 @@ Create a lightweight, modular, and easy-to-use library for styling and enhancing
 #### 2.1.2 Visual Components
 
 - Box/container components with customizable borders and padding
-- Tables with configurable formatting and borders
-- Tree-view for hierarchical data
+- Tree view for hierarchical data
 - Separators and headers
-- Spinners and loading indicators
-- Banners and notifications
+- Future components planned:
+  - Tables with configurable formatting and borders
+  - Spinners and loading indicators
+  - Banners and notifications
 
 ### 2.2 Cross-Environment Support
 
@@ -46,32 +47,32 @@ Create a lightweight, modular, and easy-to-use library for styling and enhancing
 
 #### 3.1.1 Modular Structure
 
-The library is organized with a clear separation between environments:
+The library is organized with a clear separation of concerns:
 
 ```
 consoleUI/
 ├── src/
-│   ├── core/                 # Core types and factory functions
-│   │   ├── types.ts         # Shared type definitions
-│   │   ├── constants.ts     # Shared constants
-│   │   └── factory-console-ui.ts  # Main factory function
-│   ├── utils/               # Shared utilities
-│   ├── terminal/            # Terminal-specific implementation
-│   └── browser/             # Browser-specific implementation
-├── test/                    # Test files matching src structure
-│   ├── core/
-│   ├── terminal/
-│   └── browser/
-├── playground/              # Development testing environments
-│   ├── terminal/           # Terminal playground
-│   └── browser/            # Browser playground
+│   ├── modules/           # Core functionality modules
+│   │   ├── core/         # Core types and interfaces
+│   │   ├── style/        # Style implementation
+│   │   ├── box/          # Box component
+│   │   └── tree/         # Tree component
+│   ├── utils/            # Shared utilities
+│   ├── browser.ts        # Browser-specific implementation
+│   └── terminal.ts       # Terminal-specific implementation
+├── test/                 # Test files matching src structure
+├── playground/           # Development testing environments
+│   ├── terminal/        # Terminal playground
+│   └── browser/         # Browser playground
 └── package.json
 ```
 
 #### 3.1.2 Design Patterns
 
-- **Factory Pattern**: Core factory function creates environment-specific implementations
-- **Pure Functions**: Emphasis on pure functions for better testability and tree-shaking
+- **Functional Programming**: Pure functions and immutable data structures
+- **Factory Pattern**: Environment-specific implementations via factory functions
+- **Module Pattern**: Clear separation between public API and implementation
+- **Builder Pattern**: Flexible component configuration
 - **Zero Dependencies**: No runtime dependencies for optimal performance
 - **Tree-Shaking**: Modular design allows effective dead code elimination
 
@@ -91,28 +92,25 @@ console.log(bold("Important notice"));
 
 ```typescript
 // Direct usage
-import { box, table } from "@franvena/consoleui/terminal";
+import { box, tree } from "@franvena/consoleui/terminal";
 
 console.log(box("Content in a box", { borderColor: "blue" }));
-console.log(
-  table([
-    ["Name", "Age"],
-    ["John", "30"],
-  ]),
-);
+console.log(tree([{ label: "Root", children: [{ label: "Child 1" }, { label: "Child 2" }] }]));
 ```
 
 #### 3.2.3 Factory Functions
 
 ```typescript
 // Creating custom, reusable components
-import { makeStyle, makeBox } from "@franvena/consoleui/terminal";
+import { makeStyle, makeBox, makeTree } from "@franvena/consoleui/terminal";
 
 const errorStyle = makeStyle({ color: "red", bold: true });
 const warningBox = makeBox({ borderColor: "yellow", padding: 2 });
+const customTree = makeTree({ color: "red" });
 
 console.log(errorStyle("Error message"));
 console.log(warningBox("Warning content"));
+console.log(customTree(treeNodes));
 ```
 
 ### 3.3 Technical Constraints
@@ -128,238 +126,62 @@ console.log(warningBox("Warning content"));
 
 ### 4.1 Shared vs. Environment-Specific Code
 
-ConsolaUI uses a factory-based approach to minimize code duplication:
+ConsolaUI uses a modular approach to minimize code duplication:
 
-1. **Core Factory Function**:
+1. **Core Modules**:
 
-   - Creates environment-specific implementations
-   - Manages shared configuration
-   - Handles feature detection
+   - Shared types and interfaces
+   - Component implementations (box, tree)
+   - Style definitions and utilities
+   - Environment-agnostic functionality
 
 2. **Environment-Specific Implementations**:
-   - Terminal: ANSI escape code generation
-   - Browser: CSS-based styling
+   - Terminal: ANSI escape code generation (`terminal.ts`)
+   - Browser: CSS-based styling (`browser.ts`)
    - Environment-specific optimizations
 
-### 4.2 Implementation Example: Box Component
+### 4.2 Implementation Example: Core Types
 
 ```typescript
-// src/core/types.ts
+// src/modules/core/types.ts
 export interface ConsoleUI extends Record<Style, StyleFunction> {
-  hex: (color: string, isForeground?: boolean) => StyleFunction;
-  makeStyle: (options: StyleOptions) => StyleFunction;
-  // More style methods...
-
+  /**
+   * Creates a box with specified options
+   */
   box: (content: string, borderColor?: Color) => string;
-  makeBox: (options: BoxOptions) => (content: string) => string;
+
+  /**
+   * Creates a function that applies a hex color to text
+   */
+  hex: (color: string, isForeground?: boolean) => StyleFunction;
+
+  /**
+   * Creates a function that applies a box style to text
+   */
+  makeBox: (options: BoxOptions) => StyleFunction;
+
+  /**
+   * Creates a custom style function with specified options
+   */
+  makeStyle: (options: StyleOptions) => StyleFunction;
+
+  /**
+   * Creates a function that applies a tree style to text
+   */
+  makeTree: (options: TreeOptions) => TreeFunction;
+
+  /**
+   * Creates a function that applies a tree style to text
+   */
+  tree: (nodes: TreeNode[]) => string;
 }
 
-export interface BoxOptions {
-  borderColor?: Color;
-  padding?: number;
+export interface ConsoleUIOptions {
+  /**
+   * Master switch for styling functionality
+   */
+  enabled: boolean;
 }
-
-// src/core/constants.ts
-export const DEFAULT_BOX_OPTIONS: BoxOptions = {
-  borderColor: "gray",
-  padding: 1,
-};
-
-// src/core/factory-console-ui.ts
-export function createConsoleUI(
-  createStyle: (styleType: Style, enabled: boolean) => StyleFunction,
-  makeStyle: (options: StyleOptions) => StyleFunction,
-  makeBox: (options: BoxOptions) => StyleFunction,
-  hex: (color: string, isForeground?: boolean) => StyleFunction,
-  box: (content: string, borderColor?: Color) => StyleFunction,
-) {
-  return (options: Partial<ConsoleUIOptions> = {}): ConsoleUI => {
-    // Merge provided options with defaults
-    const options_ = { ...DEFAULT_OPTIONS, ...options };
-
-    // Create and return the complete API with all available styles
-    return {
-      // Base colors
-      bgBlack: createStyle("bgBlack", options_.enabled),
-      bgBlackBright: createStyle("bgBlackBright", options_.enabled),
-      // More style methods...
-
-      box,
-      makeBox,
-    };
-  };
-}
-
-// src/components/box.ts
-export function makeBox(options: BoxOptions): StyleFunction {
-  return (text: string) => {
-    // create box logic
-    // ...
-  };
-}
-
-export function box(content: string, borderColor?: Color): StyleFunction {
-  return (text: string) => {
-    return makeBox({ borderColor, content })(text);
-  };
-}
-
-// src/terminal/index.ts
-import { createConsoleUI } from "../core/factory-console-ui";
-import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-terminal";
-import { box as box_, makeBox as makeBox_ } from "../components/box";
-
-const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, hex_, box_);
-
-export const {
-  bgBlack,
-  bgBlackBright,
-  // More style methods..
-  makeBox,
-  box,
-} = api;
-
-// src/browser/index.ts
-import { createConsoleUI } from "../core/factory-console-ui";
-import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-browser";
-import { box as box_, makeBox as makeBox_ } from "../components/box";
-
-const consoleUI = createConsoleUI(createStyle, makeStyle_, makeBox_, hex_, box_);
-
-export const {
-  bgBlack,
-  bgBlackBright,
-  // More style methods..
-  makeBox,
-  box,
-} = api;
-
-// test/browser/box.test.ts
-import { describe, expect, it, vi } from "vitest";
-import { log } from "../../src/browser/style-browser";
-import { box, makeBox } from "../../src/components/box";
-import { CSS_COLORS, CSS_FORMATS } from "../../src/browser/constants.browser";
-
-describe("Box Component", () => {
-  describe("makeStyle", () => {
-    // ...
-  });
-
-  describe("box", () => {
-    // ...
-  });
-
-  describe("log", () => {
-    let consoleSpy: ReturnType<typeof vi.spyOn>;
-
-    beforeEach(() => {
-      consoleSpy = vi.spyOn(console, "log").mockImplementation(() => {
-        // Do nothing
-      });
-    });
-
-    afterEach(() => {
-      consoleSpy.mockRestore();
-    });
-
-    describe("makeStyle", () => {
-      // ...
-    });
-
-    describe("box", () => {
-      // ...
-    });
-  });
-});
-
-// test/terminal/box.test.ts
-import { describe, expect, it, vi } from "vitest";
-import { box, makeBox } from "../../src/components/box";
-import { ANSI_COLORS, ANSI_FORMATS, STYLES } from "../../src/terminal/constants.terminal";
-import * as colorUtilities from "../../src/utils/color";
-
-vi.mock("../../src/utils/color", async () => {
-  const actual = await vi.importActual<typeof colorUtilities>("../../src/utils/color");
-  return {
-    ...actual,
-    detectColorSupport: vi.fn().mockReturnValue("256"),
-  };
-});
-
-describe("Box Component", () => {
-  describe("makeStyle", () => {
-    // ...
-  });
-
-  describe("box", () => {
-    // ...
-  });
-});
-
-// playground/terminal/src/index.ts
-import {
-  bgBlack,
-  bgBlackBright,
-  // More style methods..
-  makeBox,
-  box,
-} from "@franvena/consoleui/terminal";
-
-// ...
-
-// 10. Box Component
-printSection("Box Component");
-console.log("Box component with default options:");
-console.log(box("Default box"));
-console.log(box("Box with border color", "green"));
-console.log(box(`Box with multiple lines\nSecond line\nThird line`));
-
-console.log("\nCreate your own reusable styles with makeBox:");
-const customBox = makeBox({ borderColor: "blue", padding: 2 });
-console.log(customBox("Custom box"));
-
-console.log("\nBox component with nested styles:");
-console.log(box(`${bold("Bold content")} inside a box`));
-
-console.log("\nBox component with multiple lines:");
-console.log(box(`Box with multiple lines\nSecond line\nThird line`));
-
-// playground/browser/src/main.js
-import {
-  bgBlack,
-  bgBlackBright,
-  // More style methods..
-  makeBox,
-  box,
-} from "@franvena/consoleui/browser";
-
-// ...
-
-// 10. Box Component
-printSection("Box Component");
-log("Box component with default options:");
-log(box("Default box"));
-log(box("Box with border color", "green"));
-log(box(`Box with multiple lines\nSecond line\nThird line`));
-
-log("\nCreate your own reusable styles with makeBox:");
-const customBox = makeBox({ borderColor: "blue", padding: 2 });
-log(customBox("Custom box"));
-
-log("\nBox component with nested styles:");
-log(box(`${bold("Bold content")} inside a box`));
-
-log("\nBox component with multiple lines:");
-log(box(`Box with multiple lines\nSecond line\nThird line`));
-
-// README.md
-## Available Features
-
-### Make Box
-// Description and usage
-
-### Box
-// Description and usage
 ```
 
 ### 4.3 Color and Style Support
@@ -381,25 +203,34 @@ The library supports:
 
 - Zero runtime dependencies
 - Tree-shakeable modules
-- Maximum bundle size of 10KB per environment
+- Maximum bundle size of 5KB per environment
 - Efficient string manipulation algorithms
 - Minimal memory footprint
+- Optimized component rendering
+- Lazy initialization of heavy features
+- Smart capability detection
 
 ### 5.2 Usability
 
-- Intuitive factory-based API
+- Intuitive functional API
 - Comprehensive TypeScript definitions
 - Environment-specific exports
 - Automatic capability detection
 - Graceful degradation
+- Flexible component configuration
+- Consistent behavior across environments
+- Clear error messages
 
 ### 5.3 Documentation
 
-- Comprehensive API documentation
+- Comprehensive API documentation with TSDoc
 - Environment-specific guides
-- Interactive examples
+- Interactive examples in playground
 - Clear installation and usage instructions
 - Detailed migration guides for major versions
+- Component usage examples
+- Type documentation
+- Best practices guide
 
 ## 6. Project Status and Features
 
@@ -414,6 +245,7 @@ The library supports:
 - ✅ CI/CD pipeline with semantic release
 - ✅ Bundle size monitoring
 - ✅ Development playgrounds
+- ✅ Modular architecture
 
 #### Terminal Features
 
@@ -430,16 +262,18 @@ The library supports:
 - ✅ Color support
 - ✅ Text formatting
 - ✅ Background colors
-- ✅ Console group support
+- ✅ Box component
+- ✅ Tree component
 
 ### 6.2 Upcoming Features
 
 #### Phase 1: Enhanced Components
 
 - ✅ Box component with borders and padding
+- ✅ Tree view for hierarchical data
 - Table component with formatting options
-- Tree view for hierarchical data
 - Progress indicators and spinners
+- Banners and notifications
 
 #### Phase 2: Advanced Features
 
@@ -447,6 +281,8 @@ The library supports:
 - Theme support
 - Layout system
 - Interactive components
+- Animation support
+- Custom component API
 
 #### Phase 3: Developer Experience
 
@@ -454,6 +290,8 @@ The library supports:
 - Visual playground
 - Component gallery
 - Performance profiling tools
+- Debug mode
+- Component inspector
 
 ## 7. Quality Assurance
 

@@ -8,14 +8,14 @@
   ],
   "exports": {
     "./terminal": {
-      "types": "./dist/terminal/index.d.ts",
-      "import": "./dist/terminal/index.js",
-      "require": "./dist/terminal/index.cjs"
+      "types": "./dist/terminal/terminal.d.ts",
+      "import": "./dist/terminal/terminal.js",
+      "require": "./dist/terminal/terminal.cjs"
     },
     "./browser": {
-      "types": "./dist/browser/index.d.ts",
-      "import": "./dist/browser/index.js",
-      "require": "./dist/browser/index.cjs"
+      "types": "./dist/browser/browser.d.ts",
+      "import": "./dist/browser/browser.js",
+      "require": "./dist/browser/browser.cjs"
     }
   },
   "workspaces": [

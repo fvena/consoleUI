@@ -1,4 +1,4 @@
-import type { StripStylesFunction } from "../core/types";
+import type { StripStylesFunction } from "./strip-styles";
 
 /**
  * Wraps text to a specified width

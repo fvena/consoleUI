@@ -1,13 +1,7 @@
-import type {
-  BoxOptions,
-  Color,
-  ConsoleUI,
-  ConsoleUIOptions,
-  Style,
-  StyleFunction,
-  StyleOptions,
-} from "../core/types";
-import { DEFAULT_OPTIONS } from "../core/constants";
+import type { ConsoleUI, ConsoleUIOptions } from "./types";
+import type { Color, Style, StyleFunction, StyleOptions } from "../style/type";
+import type { BoxOptions } from "../box/types";
+import { DEFAULT_OPTIONS } from "./constants";
 
 /**
  * Factory function to create a new ConsoleUI instance

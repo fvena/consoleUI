@@ -1,4 +1,4 @@
-import type { Colors, Styles } from "../core/types";
+import type { Colors, Styles } from "./type";
 
 /**
  * ANSI color codes for terminal text styling

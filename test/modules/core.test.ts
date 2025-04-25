@@ -1,5 +1,5 @@
 import { describe, expect, it, vi } from "vitest";
-import { createConsoleUI } from "../../src/core/factory-console-ui";
+import { createConsoleUI } from "../../src/modules/core";
 
 describe("createConsoleUI", () => {
   const mockCreateStyle = vi

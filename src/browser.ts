@@ -30,11 +30,11 @@
  * @throws TypeError When imported in a Node.js environment instead of a browser
  */
 
-import { createConsoleUI } from "../core/factory-console-ui";
-import { createBox } from "../components/box";
-import { stripCssStyles } from "../utils/strip-styles";
-import { isBrowser } from "../utils/enviroment";
-import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./style-browser";
+import { createConsoleUI } from "./modules/core";
+import { createBox } from "./modules/box";
+import { stripCssStyles } from "./utils/strip-styles";
+import { isBrowser } from "./utils/enviroment";
+import { createStyle, hex as hex_, makeStyle as makeStyle_ } from "./modules/style/browser";
 
 /**
  * Runtime environment verification.
@@ -53,7 +53,6 @@ if (!isBrowser()) {
  * Creates components factory with environment-specific styling
  */
 const { box: box_, makeBox: makeBox_ } = createBox(createStyle, stripCssStyles);
-
 /**
  * Creates the ConsoleUI instance configured for browser environment
  */
@@ -152,4 +151,4 @@ export const {
  * log(red('Error: ' + blue('Critical') + ' issue'));
  * ```
  */
-export { log } from "./style-browser";
+export { log } from "./modules/style/browser";

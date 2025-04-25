@@ -1,6 +1,6 @@
 {
   "name": "@franvena/consoleui",
-  "version": "1.5.0",
+  "version": "1.5.1",
   "description": "A lightweight, high-performance UI toolkit for terminal and browser consoles. Create beautiful styled outputs with zero performance impact. ConsoleUI provides styling, colors, boxes, tables, spinners, and trees in a single tree-shakable package with zero dependencies, ensuring consistent results across all environments.",
   "type": "module",
   "files": [

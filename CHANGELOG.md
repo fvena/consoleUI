@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/fvena/consoleUI/compare/v1.5.0...v1.5.1) (2025-04-25)
+
+
+### Bug Fixes
+
+* add types module ([7731679](https://github.com/fvena/consoleUI/commit/773167900f0a8efd31dccafa182c72c1abb708bc))
+
 # [1.5.0](https://github.com/fvena/consoleUI/compare/v1.4.0...v1.5.0) (2025-04-25)
 
 
